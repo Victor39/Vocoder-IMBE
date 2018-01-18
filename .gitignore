@@ -1,0 +1,5 @@
+/src/
+/targetConfigs/
+/Debug/
+/.settings/
+*.xdchelp
