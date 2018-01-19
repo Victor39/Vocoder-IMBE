@@ -72,10 +72,4 @@ void dct(Word16 *in, Word16 m_lim, Word16 i_lim, Word16 *out);
 
 #define FFTLENGTH 256
 
-
-void fft_init(void);
-void fft(Word16 *datam1, Word16 nn, Word16 isign);
-
-void c_fft(Word16 * farray_ptr);
-
 #endif

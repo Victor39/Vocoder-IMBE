@@ -45,7 +45,6 @@ void imbe_vocoder::encode_init(void)
 	v_zap(pitch_ref_buf, PITCH_EST_BUF_SIZE);
 	v_zap(pe_lpf_mem, PE_LPF_ORD);
 	pitch_est_init();
-	fft_init();
 	dc_rmv_mem = 0;
 	sa_encode_init();
 	pitch_ref_init();
@@ -89,7 +88,7 @@ void imbe_vocoder::encode(IMBE_PARAM *imbe_param, Word16 *frame_vector, Word16 *
 	for(i = 111; i < 146; i++) 
 		fft_buf[i].re = fft_buf[i].im = 0;
 
-	fft((Word16 *)fft_buf, FFTLENGTH, 1);
+	fft->directTransform(fft_buf);
 
 	pitch_ref(imbe_param, fft_buf);
 	v_uv_det(imbe_param, fft_buf);

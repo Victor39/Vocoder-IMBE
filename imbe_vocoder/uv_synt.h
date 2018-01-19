@@ -24,6 +24,5 @@
 
 void uv_synt_init(void);
 void uv_synt(IMBE_PARAM *imbe_param, Word16 *snd);
-void fft(Word16 *datam1, Word16 nn, Word16 isign);
 
 #endif

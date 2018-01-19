@@ -36,7 +36,6 @@
 
 void imbe_vocoder::uv_synt_init(void)
 {
-	fft_init();
 	v_zap(uv_mem, 105);
 }
 
@@ -102,21 +101,7 @@ void imbe_vocoder::uv_synt(IMBE_PARAM *imbe_param, Word16 *snd)
 		sa_ptr++;
 	}
 
-/*
-	j = 128;
-	for(i = 0; i < 128; i++)
-		Uw_tmp[j++] = Uw[i];
-
-	j = 128;
-	for(i = 0; i < 128; i++)
-		Uw_tmp[i] = Uw[j++];
-
-	for(i = 0; i < 256; i++)
-		Uw[i] = Uw_tmp[i];
-*/
-
-
-	fft((Word16 *)&Uw, FFTLENGTH, -1);
+	fft->inverseTransform(Uw);
 
 	for(i = 0; i < 105; i++)
 		snd[i] = uv_mem[i];

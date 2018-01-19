@@ -16,6 +16,7 @@
 #include "math_sub.h"
 #include "encode.h"
 #include "decode.h"
+#include "fft.h"
 
 class imbe_vocoder
 {
@@ -32,8 +33,6 @@ public:
 	void imbe_decode(int16_t *frame_vector, int16_t *snd) {
 		decode(&my_imbe_param, frame_vector, snd);
 	}
-
-    void fft(Word16 *datam1, Word16 nn, Word16 isign);
 private:
 	IMBE_PARAM my_imbe_param;
 
@@ -52,25 +51,19 @@ private:
 	Word16 sa_prev3[NUM_HARMS_MAX];
 	Word32 th_max;
 	Word16 v_uv_dsn[NUM_BANDS_MAX];
-	Word16 wr_array[FFTLENGTH / 2 + 1];
-	Word16 wi_array[FFTLENGTH / 2 + 1];
 	Word16 pitch_est_buf[PITCH_EST_BUF_SIZE];
 	Word16 pitch_ref_buf[PITCH_EST_BUF_SIZE];
 	Word32 dc_rmv_mem;
-	Cmplx16 * fft_buf;
-	Cmplx16 * fft_buf2;
-    Cmplx16 * Uw;
-    Cmplx16 * twiddle_factors;
-
+	Cmplx16 fft_buf[FFTLENGTH];
+    Cmplx16 Uw[FFTLENGTH];
 	Word16 pe_lpf_mem[PE_LPF_ORD];
+	Fft * fft;
 
 
 
 	/* member functions */
 	void idct(Word16 *in, Word16 m_lim, Word16 i_lim, Word16 *out);
 	void dct(Word16 *in, Word16 m_lim, Word16 i_lim, Word16 *out);
-	void fft_init(void);
-    //void fft(Word16 *datam1, Word16 nn, Word16 isign);
 	void encode(IMBE_PARAM *imbe_param, Word16 *frame_vector, Word16 *snd);
 	void parse(int argc, char **argv);
 	void pitch_est_init(void);

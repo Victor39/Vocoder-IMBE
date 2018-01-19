@@ -110,7 +110,8 @@ void testFft(imbe_vocoder & executor) {
     short * x = (short*)memalign(8, 2*256*sizeof(short));
     memcpy(x, x_array, 2*256*sizeof(short));
 
-    executor.fft(x, 256, 1);
+    //executor.fft(x, 256, 1);
+
 
 }
 
@@ -162,24 +163,24 @@ extern "C" Void taskFxn(UArg a0, UArg a1)
 
         Task_sleep(10);
 
-//        {
-//
-//            Seconds_getTime(&ts1);
-//            GPIOPinWrite(SOC_GPIO_0_REGS, 111, GPIO_PIN_HIGH);
-//            imbeDecoder.imbe_decode((int16_t*) &outEncoderBuffer[ii][0], &outDecoderBuffer[ii][0]);
-//            GPIOPinWrite(SOC_GPIO_0_REGS, 111, GPIO_PIN_LOW);
-//            Seconds_getTime(&ts2);
-//
-//            resultTime2.secs = (ts2.secs - ts1.secs);
-//            resultTime2.nsecs = (ts2.nsecs - ts1.nsecs);
-//
-//            int errorss = 0;
-//            for (int i = 0; i < IN_ENCODER_FRAME_SAMPLE_SIZE; i++) {
-//                if (outDecoderBuffer[ii][i] != outDecoderEtalonBuffer[ii][i])
-//                    errorss++;
-//            }
-//            doneSuccessfully2 = (errorss == 0) ? true : false;
-//        }
+        {
+
+            Seconds_getTime(&ts1);
+            GPIOPinWrite(SOC_GPIO_0_REGS, 111, GPIO_PIN_HIGH);
+            imbeDecoder.imbe_decode((int16_t*) &outEncoderBuffer[ii][0], &outDecoderBuffer[ii][0]);
+            GPIOPinWrite(SOC_GPIO_0_REGS, 111, GPIO_PIN_LOW);
+            Seconds_getTime(&ts2);
+
+            resultTime2.secs = (ts2.secs - ts1.secs);
+            resultTime2.nsecs = (ts2.nsecs - ts1.nsecs);
+
+            int errorss = 0;
+            for (int i = 0; i < IN_ENCODER_FRAME_SAMPLE_SIZE; i++) {
+                if (outDecoderBuffer[ii][i] != outDecoderEtalonBuffer[ii][i])
+                    errorss++;
+            }
+            doneSuccessfully2 = (errorss == 0) ? true : false;
+        }
 
         asm(" nop");
     }

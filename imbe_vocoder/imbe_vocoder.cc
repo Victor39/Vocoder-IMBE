@@ -8,6 +8,8 @@
 #include <stdlib.h>
 
 #include "imbe_vocoder.h"
+#include "crossplatfprmfft.h"
+#include "c6748fft.h"
 
 imbe_vocoder::imbe_vocoder (void) :
 	prev_pitch(0),
@@ -22,14 +24,8 @@ imbe_vocoder::imbe_vocoder (void) :
 	th_max(0),
 	dc_rmv_mem(0)
 {
+	fft = new CrossplatfprmFft();
 
-    fft_buf = (Cmplx16 *)memalign(8, FFTLENGTH*sizeof(Cmplx16));
-    fft_buf2 = (Cmplx16 *)memalign(8, FFTLENGTH*sizeof(Cmplx16));
-    Uw = (Cmplx16 *)memalign(8, FFTLENGTH*sizeof(Cmplx16));
-    twiddle_factors  = (Cmplx16 *)memalign(8, FFTLENGTH*sizeof(Cmplx16));
-
-	memset(wr_array, 0, sizeof(wr_array));
-	memset(wi_array, 0, sizeof(wi_array));
 	memset(pitch_est_buf, 0, sizeof(pitch_est_buf));
 	memset(pitch_ref_buf, 0, sizeof(pitch_ref_buf));
 	memset(pe_lpf_mem, 0, sizeof(pe_lpf_mem));
@@ -50,8 +46,4 @@ imbe_vocoder::imbe_vocoder (void) :
 
 imbe_vocoder::~imbe_vocoder() {
 
-    free(twiddle_factors);
-    free(Uw);
-    free(fft_buf2);
-    free(fft_buf);
  }
