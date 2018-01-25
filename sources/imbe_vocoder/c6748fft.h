@@ -10,6 +10,8 @@
 
 #include "fft.h"
 
+#define SQRT_FFT_LENGTH (16)
+
 class C6748Fft : public Fft {
 public:
 	C6748Fft ();
@@ -22,6 +24,8 @@ private:
 	Cmplx16 * m_inFftBuffer;
 	Cmplx16 * m_outFftBuffer;
 	Cmplx16 * m_twiddleFactors;
+
+	void bitrevCplx(Cmplx16* inData, Cmplx16* outData, const Word16 size) const;
 	short d2s(double d);
 	int gen_twiddle(short *w, int n, double scale);
 };

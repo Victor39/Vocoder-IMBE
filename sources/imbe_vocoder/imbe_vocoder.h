@@ -33,6 +33,9 @@ public:
 	void imbe_decode(int16_t *frame_vector, int16_t *snd) {
 		decode(&my_imbe_param, frame_vector, snd);
 	}
+
+    void excuteFft(Word16 * x);
+    void excuteIfft(Word16 * x);
 private:
 	IMBE_PARAM my_imbe_param;
 

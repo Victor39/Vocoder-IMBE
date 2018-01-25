@@ -5,6 +5,10 @@
 
 extern "C"
 #include "DSP_fft16x16t.h"
+extern "C"
+#include "DSP_bitrev_cplx.h"
+
+#include "basic_op.h"
 
 #ifndef PI
 # ifdef M_PI
@@ -13,6 +17,7 @@ extern "C"
 #  define PI 3.14159265358979323846
 # endif
 #endif
+
 
 /* ======================================================================== */
 /*  D2S -- Truncate a 'double' to a 'short', with clamping.                 */
@@ -69,15 +74,13 @@ int C6748Fft::gen_twiddle (short *w, int n, double scale) {
 	return k;
 }
 
+
 C6748Fft::C6748Fft () {
 
 	m_inFftBuffer = (Cmplx16 *) memalign(8, FFT_LENGTH * sizeof(Cmplx16));
 	m_outFftBuffer = (Cmplx16 *) memalign(8, FFT_LENGTH * sizeof(Cmplx16));
 	m_twiddleFactors = (Cmplx16 *) memalign(8, FFT_LENGTH * sizeof(Cmplx16));
 
-	/* -------------------------------------------------------------------- */
-	/*  Generate the twiddle-factor array.                                  */
-	/* -------------------------------------------------------------------- */
 	double scale = 32767.5;
 	int size = gen_twiddle((Word16*) m_twiddleFactors, FFT_LENGTH, scale);
 }
@@ -89,6 +92,14 @@ C6748Fft::~C6748Fft () {
 	free(m_inFftBuffer);
 }
 
+void C6748Fft::bitrevCplx(Cmplx16* inData, Cmplx16* outData, const Word16 size) const {
+
+	for(int i = 0; i < size; i++) {
+		outData[i].re = inData[size - i - 1].re;
+		outData[i].im = inData[size - i - 1].im;
+	}
+}
+
 void C6748Fft::directTransform (Cmplx16* data) const {
 
 	for (int i = 0; i < FFT_LENGTH; i++) {
@@ -97,8 +108,20 @@ void C6748Fft::directTransform (Cmplx16* data) const {
 	}
 
 	DSP_fft16x16t((Word16*) m_twiddleFactors, FFT_LENGTH, (Word16*) m_inFftBuffer, (Word16*) m_outFftBuffer);
-	memcpy(data, m_outFftBuffer, FFT_LENGTH * sizeof(Cmplx16));
+	bitrevCplx(m_outFftBuffer, data, FFT_LENGTH);
 }
 
 void C6748Fft::inverseTransform (Cmplx16* data) const {
+
+	for (int i = 0; i < FFT_LENGTH; i++) {
+		m_inFftBuffer[i].re = data[i].re / FFT_LENGTH;
+		m_inFftBuffer[i].im = data[i].im / FFT_LENGTH;
+	}
+
+	DSP_fft16x16t((Word16*) m_twiddleFactors, FFT_LENGTH, (Word16*) m_inFftBuffer, (Word16*) m_outFftBuffer);
+	//bitrevCplx(m_outFftBuffer, data, FFT_LENGTH);
+
+	for (int i = 0; i < FFT_LENGTH; i++) {
+		data[i].im = negate(m_outFftBuffer[i].im);
+	}
 }

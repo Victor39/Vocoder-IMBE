@@ -32,10 +32,19 @@
  |___________________________________________________________________________|
 */
 
+#define C6748_OPTIMAZED
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "typedef.h"
 #include "basic_op.h"
+
+#ifdef C6748_OPTIMAZED
+#include "c6x.h"
+#endif
+
+
+
 
 #if (WMOPS)
 #include "count.h"
@@ -114,6 +123,7 @@ saturate (Word32 L_var1)
 #endif
     }
 
+
     return (var_out);
 }
 
@@ -153,6 +163,8 @@ saturate (Word32 L_var1)
 
 Word16 add (Word16 var1, Word16 var2)
 {
+
+#ifndef C6748_OPTIMAZED
     Word16 var_out;
     Word32 L_sum;
 
@@ -161,6 +173,11 @@ Word16 add (Word16 var1, Word16 var2)
 #if (WMOPS)
     multiCounter[currCounter].add++;
 #endif
+
+#else
+    Word16 var_out = _sadd2(var1, var2);
+#endif
+
     return (var_out);
 }
 
@@ -200,13 +217,18 @@ Word16 add (Word16 var1, Word16 var2)
 
 Word16 sub (Word16 var1, Word16 var2)
 {
-    Word16 var_out;
+#ifndef C6748_OPTIMAZED
+	Word16 var_out;
     Word32 L_diff;
 
     L_diff = (Word32) var1 - var2;
     var_out = saturate (L_diff);
 #if (WMOPS)
     multiCounter[currCounter].sub++;
+#endif
+
+#else
+    Word16 var_out = _ssub2(var1, var2);
 #endif
     return (var_out);
 }
@@ -241,6 +263,8 @@ Word16 sub (Word16 var1, Word16 var2)
 
 Word16 abs_s (Word16 var1)
 {
+
+#ifndef C6748_OPTIMAZED
     Word16 var_out;
 
     if (var1 == (Word16) 0X8000)
@@ -261,6 +285,11 @@ Word16 abs_s (Word16 var1)
 #if (WMOPS)
     multiCounter[currCounter].abs_s++;
 #endif
+
+#else
+    Word16 var_out = _abs2(var1);
+#endif
+
     return (var_out);
 }
 
@@ -446,6 +475,7 @@ Word16 shr (Word16 var1, Word16 var2)
 
 Word16 mult (Word16 var1, Word16 var2)
 {
+//#ifndef C6748_OPTIMAZED
     Word16 var_out;
     Word32 L_product;
 
@@ -460,6 +490,10 @@ Word16 mult (Word16 var1, Word16 var2)
 #if (WMOPS)
     multiCounter[currCounter].mult++;
 #endif
+
+//#else
+    //Word16 var_out = _mpylir(var1, var2) - 1;
+//#endif
     return (var_out);
 }
 
@@ -500,6 +534,8 @@ Word16 mult (Word16 var1, Word16 var2)
 
 Word32 L_mult (Word16 var1, Word16 var2)
 {
+
+#ifndef C6748_OPTIMAZED
     Word32 L_var_out;
 
     L_var_out = (Word32) var1 *(Word32) var2;
@@ -517,6 +553,11 @@ Word32 L_mult (Word16 var1, Word16 var2)
 #if (WMOPS)
     multiCounter[currCounter].L_mult++;
 #endif
+
+#else
+    Word32 L_var_out = _smpy(var1, var2);
+#endif
+
     return (L_var_out);
 }
 
@@ -946,6 +987,7 @@ Word32 L_msuNs (Word32 L_var3, Word16 var1, Word16 var2)
 
 Word32 L_add (Word32 L_var1, Word32 L_var2)
 {
+#ifndef C6748_OPTIMAZED
     Word32 L_var_out;
 
     L_var_out = L_var1 + L_var2;
@@ -960,6 +1002,9 @@ Word32 L_add (Word32 L_var1, Word32 L_var2)
     }
 #if (WMOPS)
     multiCounter[currCounter].L_add++;
+#endif
+#else
+    Word32 L_var_out = _sadd(L_var1, L_var2);
 #endif
     return (L_var_out);
 }
@@ -998,6 +1043,7 @@ Word32 L_add (Word32 L_var1, Word32 L_var2)
 
 Word32 L_sub (Word32 L_var1, Word32 L_var2)
 {
+#ifndef C6748_OPTIMAZED
     Word32 L_var_out;
 
     L_var_out = L_var1 - L_var2;
@@ -1012,6 +1058,10 @@ Word32 L_sub (Word32 L_var1, Word32 L_var2)
     }
 #if (WMOPS)
     multiCounter[currCounter].L_sub++;
+#endif
+
+#else
+    Word32 L_var_out = _ssub(L_var1, L_var2);
 #endif
     return (L_var_out);
 }
@@ -1320,6 +1370,8 @@ Word16 mult_r (Word16 var1, Word16 var2)
 #if (WMOPS)
     multiCounter[currCounter].mult_r++;
 #endif
+
+    // _mpylir // -32768 è -32768
     return (var_out);
 }
 
@@ -1840,7 +1892,8 @@ Word32 L_shr_r (Word32 L_var1, Word16 var2)
 
 Word32 L_abs (Word32 L_var1)
 {
-    Word32 L_var_out;
+#ifndef C6748_OPTIMAZED
+	Word32 L_var_out;
 
     if (L_var1 == MIN_32)
     {
@@ -1860,6 +1913,10 @@ Word32 L_abs (Word32 L_var1)
 
 #if (WMOPS)
     multiCounter[currCounter].L_abs++;
+#endif
+
+#else
+    Word32 L_var_out = _abs(L_var1);
 #endif
     return (L_var_out);
 }
@@ -2124,6 +2181,7 @@ Word16 div_s (Word16 var1, Word16 var2)
 
 Word16 norm_l (Word32 L_var1)
 {
+#ifndef C6748_OPTIMAZED
     Word16 var_out;
 
     if (L_var1 == 0)
@@ -2151,6 +2209,17 @@ Word16 norm_l (Word32 L_var1)
 
 #if (WMOPS)
     multiCounter[currCounter].norm_l++;
+#endif
+
+#else
+    Word16 var_out;
+    if (L_var1 == 0)
+    {
+        var_out = 0;
+    }
+    else {
+    	var_out = _norm(L_var1);
+    }
 #endif
     return (var_out);
 }

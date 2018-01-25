@@ -25,6 +25,7 @@ imbe_vocoder::imbe_vocoder (void) :
 	dc_rmv_mem(0)
 {
 	fft = new CrossplatfprmFft();
+//	fft = new C6748Fft();
 
 	memset(pitch_est_buf, 0, sizeof(pitch_est_buf));
 	memset(pitch_ref_buf, 0, sizeof(pitch_ref_buf));
@@ -46,4 +47,15 @@ imbe_vocoder::imbe_vocoder (void) :
 
 imbe_vocoder::~imbe_vocoder() {
 
- }
+	delete fft;
+}
+
+void imbe_vocoder::excuteFft(Word16 * x) {
+
+	fft->directTransform((Cmplx16 *)x);
+}
+
+void imbe_vocoder::excuteIfft(Word16 * x) {
+
+	fft->inverseTransform((Cmplx16 *)x);
+}
