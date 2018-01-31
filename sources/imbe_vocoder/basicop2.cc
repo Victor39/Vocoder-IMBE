@@ -24,15 +24,13 @@
  |                                                                           |
  | $Id $
  |___________________________________________________________________________|
-*/
+ */
 
 /*___________________________________________________________________________
  |                                                                           |
  |   Include-Files                                                           |
  |___________________________________________________________________________|
-*/
-
-#define C6748_OPTIMAZED
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,9 +41,6 @@
 #include "c6x.h"
 #endif
 
-
-
-
 #if (WMOPS)
 #include "count.h"
 extern BASIC_OP multiCounter[MAXCOUNTERS];
@@ -53,18 +48,12 @@ extern int currCounter;
 
 #endif
 
-/*___________________________________________________________________________
- |                                                                           |
- |   Local Functions                                                         |
- |___________________________________________________________________________|
-*/
-Word16 saturate (Word32 L_var1);
 
 /*___________________________________________________________________________
  |                                                                           |
  |   Constants and Globals                                                   |
  |___________________________________________________________________________|
-*/
+ */
 Flag Overflow = 0;
 Flag Carry = 0;
 
@@ -72,7 +61,7 @@ Flag Carry = 0;
  |                                                                           |
  |   Functions                                                               |
  |___________________________________________________________________________|
-*/
+ */
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -98,33 +87,27 @@ Flag Carry = 0;
  |             16 bit short signed integer (Word16) whose value falls in the |
  |             range : 0xffff 8000 <= var_out <= 0x0000 7fff.                |
  |___________________________________________________________________________|
-*/
+ */
+static Word16 saturate (const Word32 L_var1) {
 
-Word16 
-saturate (Word32 L_var1)
-{
-    Word16 var_out;
+	Word16 var_out;
 
-    if (L_var1 > 0X00007fffL)
-    {
-        Overflow = 1;
-        var_out = MAX_16;
-    }
-    else if (L_var1 < (Word32) 0xffff8000L)
-    {
-        Overflow = 1;
-        var_out = MIN_16;
-    }
-    else
-    {
-        var_out = extract_l (L_var1);
+	if (L_var1 > 0X00007fffL) {
+		Overflow = 1;
+		var_out = MAX_16;
+	}
+	else if (L_var1 < (Word32) 0xffff8000L) {
+		Overflow = 1;
+		var_out = MIN_16;
+	}
+	else {
+		var_out = extract_l(L_var1);
 #if (WMOPS)
-        multiCounter[currCounter].extract_l--;
+		multiCounter[currCounter].extract_l--;
 #endif
-    }
+	}
 
-
-    return (var_out);
+	return (var_out);
 }
 
 /*___________________________________________________________________________
@@ -159,27 +142,23 @@ saturate (Word32 L_var1)
  |             16 bit short signed integer (Word16) whose value falls in the |
  |             range : 0xffff 8000 <= var_out <= 0x0000 7fff.                |
  |___________________________________________________________________________|
-*/
-
-Word16 add (Word16 var1, Word16 var2)
-{
-
+ */
 #ifndef C6748_OPTIMAZED
-    Word16 var_out;
-    Word32 L_sum;
+Word16 add (Word16 var1, Word16 var2) {
 
-    L_sum = (Word32) var1 + var2;
-    var_out = saturate (L_sum);
+
+	Word16 var_out;
+	Word32 L_sum;
+
+	L_sum = (Word32) var1 + var2;
+	var_out = saturate (L_sum);
 #if (WMOPS)
-    multiCounter[currCounter].add++;
+	multiCounter[currCounter].add++;
 #endif
-
-#else
-    Word16 var_out = _sadd2(var1, var2);
-#endif
-
-    return (var_out);
+	return (var_out);
 }
+#endif
+
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -213,25 +192,22 @@ Word16 add (Word16 var1, Word16 var2)
  |             16 bit short signed integer (Word16) whose value falls in the |
  |             range : 0xffff 8000 <= var_out <= 0x0000 7fff.                |
  |___________________________________________________________________________|
-*/
-
-Word16 sub (Word16 var1, Word16 var2)
-{
+ */
 #ifndef C6748_OPTIMAZED
+Word16 sub (Word16 var1, Word16 var2) {
+
 	Word16 var_out;
-    Word32 L_diff;
+	Word32 L_diff;
 
-    L_diff = (Word32) var1 - var2;
-    var_out = saturate (L_diff);
+	L_diff = (Word32) var1 - var2;
+	var_out = saturate (L_diff);
 #if (WMOPS)
-    multiCounter[currCounter].sub++;
+	multiCounter[currCounter].sub++;
 #endif
 
-#else
-    Word16 var_out = _ssub2(var1, var2);
-#endif
-    return (var_out);
+	return (var_out);
 }
+#endif
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -259,39 +235,34 @@ Word16 sub (Word16 var1, Word16 var2)
  |             16 bit short signed integer (Word16) whose value falls in the |
  |             range : 0x0000 0000 <= var_out <= 0x0000 7fff.                |
  |___________________________________________________________________________|
-*/
-
-Word16 abs_s (Word16 var1)
-{
-
+ */
 #ifndef C6748_OPTIMAZED
-    Word16 var_out;
+Word16 abs_s (Word16 var1) {
 
-    if (var1 == (Word16) 0X8000)
-    {
-        var_out = MAX_16;
-    }
-    else
-    {
-        if (var1 < 0)
-        {
-            var_out = -var1;
-        }
-        else
-        {
-            var_out = var1;
-        }
-    }
+	Word16 var_out;
+
+	if (var1 == (Word16) 0X8000)
+	{
+		var_out = MAX_16;
+	}
+	else
+	{
+		if (var1 < 0)
+		{
+			var_out = -var1;
+		}
+		else
+		{
+			var_out = var1;
+		}
+	}
 #if (WMOPS)
-    multiCounter[currCounter].abs_s++;
+	multiCounter[currCounter].abs_s++;
 #endif
 
-#else
-    Word16 var_out = _abs2(var1);
-#endif
-
-    return (var_out);
+	return (var_out);
 }
+#endif
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -326,43 +297,40 @@ Word16 abs_s (Word16 var1)
  |             16 bit short signed integer (Word16) whose value falls in the |
  |             range : 0xffff 8000 <= var_out <= 0x0000 7fff.                |
  |___________________________________________________________________________|
-*/
+ */
 
-Word16 shl (Word16 var1, Word16 var2)
-{
-    Word16 var_out;
-    Word32 result;
+Word16 shl (const Word16 var1, const Word16 var2) {
 
-    if (var2 < 0)
-    {
-        if (var2 < -16)
-            var2 = -16;
-        var_out = shr (var1, -var2);
-#if (WMOPS)
-        multiCounter[currCounter].shr--;
-#endif
-    }
-    else
-    {
-        result = (Word32) var1 *((Word32) 1 << var2);
+	Word16 var2_t = var2;
+	Word16 var_out;
+	Word32 result;
 
-        if ((var2 > 15 && var1 != 0) || (result != (Word32) ((Word16) result)))
-        {
-            Overflow = 1;
-            var_out = (var1 > 0) ? MAX_16 : MIN_16;
-        }
-        else
-        {
-            var_out = extract_l (result);
+	if (var2_t < 0) {
+		if (var2_t < -16)
+			var2_t = -16;
+		var_out = shr(var1, -var2_t);
 #if (WMOPS)
-            multiCounter[currCounter].extract_l--;
+		multiCounter[currCounter].shr--;
 #endif
-        }
-    }
+	}
+	else {
+		result = (Word32) var1 * ((Word32) 1 << var2_t);
+
+		if ((var2_t > 15 && var1 != 0) || (result != (Word32) ((Word16) result))) {
+			Overflow = 1;
+			var_out = (var1 > 0) ? MAX_16 : MIN_16;
+		}
+		else {
+			var_out = extract_l(result);
 #if (WMOPS)
-    multiCounter[currCounter].shl++;
+			multiCounter[currCounter].extract_l--;
 #endif
-    return (var_out);
+		}
+	}
+#if (WMOPS)
+	multiCounter[currCounter].shl++;
+#endif
+	return (var_out);
 }
 
 /*___________________________________________________________________________
@@ -398,44 +366,38 @@ Word16 shl (Word16 var1, Word16 var2)
  |             16 bit short signed integer (Word16) whose value falls in the |
  |             range : 0xffff 8000 <= var_out <= 0x0000 7fff.                |
  |___________________________________________________________________________|
-*/
+ */
 
-Word16 shr (Word16 var1, Word16 var2)
-{
-    Word16 var_out;
+Word16 shr (const Word16 var1, const Word16 var2) {
+	Word16 var_out;
 
-    if (var2 < 0)
-    {
-        if (var2 < -16)
-            var2 = -16;
-        var_out = shl (var1, -var2);
+	Word16 var2_t = var2;
+	if (var2_t < 0) {
+		if (var2_t < -16)
+			var2_t = -16;
+		var_out = shl(var1, -var2_t);
 #if (WMOPS)
-        multiCounter[currCounter].shl--;
+		multiCounter[currCounter].shl--;
 #endif
-    }
-    else
-    {
-        if (var2 >= 15)
-        {
-            var_out = (var1 < 0) ? -1 : 0;
-        }
-        else
-        {
-            if (var1 < 0)
-            {
-                var_out = ~((~var1) >> var2);
-            }
-            else
-            {
-                var_out = var1 >> var2;
-            }
-        }
-    }
+	}
+	else {
+		if (var2_t >= 15) {
+			var_out = (var1 < 0) ? -1 : 0;
+		}
+		else {
+			if (var1 < 0) {
+				var_out = ~((~var1) >> var2_t);
+			}
+			else {
+				var_out = var1 >> var2_t;
+			}
+		}
+	}
 
 #if (WMOPS)
-    multiCounter[currCounter].shr++;
+	multiCounter[currCounter].shr++;
 #endif
-    return (var_out);
+	return (var_out);
 }
 
 /*___________________________________________________________________________
@@ -471,30 +433,53 @@ Word16 shr (Word16 var1, Word16 var2)
  |             16 bit short signed integer (Word16) whose value falls in the |
  |             range : 0xffff 8000 <= var_out <= 0x0000 7fff.                |
  |___________________________________________________________________________|
-*/
+ */
 
-Word16 mult (Word16 var1, Word16 var2)
-{
+Word16 mult (const Word16 var1, const Word16 var2) {
 //#ifndef C6748_OPTIMAZED
-    Word16 var_out;
-    Word32 L_product;
+	Word16 var_out;
+	Word32 L_product;
 
-    L_product = (Word32) var1 *(Word32) var2;
+	L_product = (Word32) var1 * (Word32) var2;
 
-    L_product = (L_product & (Word32) 0xffff8000L) >> 15;
+	L_product = (L_product & (Word32) 0xffff8000L) >> 15;
 
-    if (L_product & (Word32) 0x00010000L)
-        L_product = L_product | (Word32) 0xffff0000L;
+	if (L_product & (Word32) 0x00010000L)
+		L_product = L_product | (Word32) 0xffff0000L;
 
-    var_out = saturate (L_product);
+	var_out = saturate(L_product);
 #if (WMOPS)
-    multiCounter[currCounter].mult++;
+	multiCounter[currCounter].mult++;
 #endif
 
 //#else
-    //Word16 var_out = _mpylir(var1, var2) - 1;
+	//Word16 var_out = _mpylir(var1, var2) - 1;
 //#endif
-    return (var_out);
+	return (var_out);
+}
+
+Word16 mult2 (const Word16 var1, const Word16 var2) {
+//#ifndef C6748_OPTIMAZED
+	Word16 var_out;
+	Word32 L_product;
+
+	L_product = _mpy2ll(var1, var2);
+	L_product = _sadd(L_product, (Word32) 0x00004000L);
+
+	L_product = (L_product & (Word32) 0xffff8000L) >> 15;
+
+	if (L_product & (Word32) 0x00010000L)
+		L_product = L_product | (Word32) 0xffff0000L;
+
+	var_out = saturate(L_product);
+#if (WMOPS)
+	multiCounter[currCounter].mult++;
+#endif
+
+//#else
+	//Word16 var_out = _mpylir(var1, var2) - 1;
+//#endif
+	return (var_out);
 }
 
 /*___________________________________________________________________________
@@ -530,36 +515,31 @@ Word16 mult (Word16 var1, Word16 var2)
  |             32 bit long signed integer (Word32) whose value falls in the  |
  |             range : 0x8000 0000 <= L_var_out <= 0x7fff ffff.              |
  |___________________________________________________________________________|
-*/
-
-Word32 L_mult (Word16 var1, Word16 var2)
-{
-
+ */
 #ifndef C6748_OPTIMAZED
-    Word32 L_var_out;
+Word32 L_mult (Word16 var1, Word16 var2) {
 
-    L_var_out = (Word32) var1 *(Word32) var2;
+	Word32 L_var_out;
 
-    if (L_var_out != (Word32) 0x40000000L)
-    {
-        L_var_out *= 2;
-    }
-    else
-    {
-        Overflow = 1;
-        L_var_out = MAX_32;
-    }
+	L_var_out = (Word32) var1 *(Word32) var2;
+
+	if (L_var_out != (Word32) 0x40000000L)
+	{
+		L_var_out *= 2;
+	}
+	else
+	{
+		Overflow = 1;
+		L_var_out = MAX_32;
+	}
 
 #if (WMOPS)
-    multiCounter[currCounter].L_mult++;
+	multiCounter[currCounter].L_mult++;
 #endif
 
-#else
-    Word32 L_var_out = _smpy(var1, var2);
-#endif
-
-    return (L_var_out);
+	return (L_var_out);
 }
+#endif
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -588,17 +568,16 @@ Word32 L_mult (Word16 var1, Word16 var2)
  |             16 bit short signed integer (Word16) whose value falls in the |
  |             range : 0xffff 8000 <= var_out <= 0x0000 7fff.                |
  |___________________________________________________________________________|
-*/
+ */
 
-Word16 negate (Word16 var1)
-{
-    Word16 var_out;
+Word16 negate (const Word16 var1) {
+	Word16 var_out;
 
-    var_out = (var1 == MIN_16) ? MAX_16 : -var1;
+	var_out = (var1 == MIN_16 ) ? MAX_16 : -var1;
 #if (WMOPS)
-    multiCounter[currCounter].negate++;
+	multiCounter[currCounter].negate++;
 #endif
-    return (var_out);
+	return (var_out);
 }
 
 /*___________________________________________________________________________
@@ -627,17 +606,16 @@ Word16 negate (Word16 var1)
  |             16 bit short signed integer (Word16) whose value falls in the |
  |             range : 0xffff 8000 <= var_out <= 0x0000 7fff.                |
  |___________________________________________________________________________|
-*/
+ */
 
-Word16 extract_h (Word32 L_var1)
-{
-    Word16 var_out;
+Word16 extract_h (const Word32 L_var1) {
+	Word16 var_out;
 
-    var_out = (Word16) (L_var1 >> 16);
+	var_out = (Word16) (L_var1 >> 16);
 #if (WMOPS)
-    multiCounter[currCounter].extract_h++;
+	multiCounter[currCounter].extract_h++;
 #endif
-    return (var_out);
+	return (var_out);
 }
 
 /*___________________________________________________________________________
@@ -666,17 +644,16 @@ Word16 extract_h (Word32 L_var1)
  |             16 bit short signed integer (Word16) whose value falls in the |
  |             range : 0xffff 8000 <= var_out <= 0x0000 7fff.                |
  |___________________________________________________________________________|
-*/
+ */
 
-Word16 extract_l (Word32 L_var1)
-{
-    Word16 var_out;
+Word16 extract_l (const Word32 L_var1) {
+	Word16 var_out;
 
-    var_out = (Word16) L_var1;
+	var_out = (Word16) L_var1;
 #if (WMOPS)
-    multiCounter[currCounter].extract_l++;
+	multiCounter[currCounter].extract_l++;
 #endif
-    return (var_out);
+	return (var_out);
 }
 
 /*___________________________________________________________________________
@@ -708,23 +685,22 @@ Word16 extract_l (Word32 L_var1)
  |             16 bit short signed integer (Word16) whose value falls in the |
  |             range : 0xffff 8000 <= var_out <= 0x0000 7fff.                |
  |___________________________________________________________________________|
-*/
+ */
 
-Word16 round (Word32 L_var1)
-{
-    Word16 var_out;
-    Word32 L_rounded;
+Word16 round (const Word32 L_var1) {
+	Word16 var_out;
+	Word32 L_rounded;
 
-    L_rounded = L_add (L_var1, (Word32) 0x00008000L);
+	L_rounded = L_add(L_var1, (Word32) 0x00008000L);
 #if (WMOPS)
-    multiCounter[currCounter].L_add--;
+	multiCounter[currCounter].L_add--;
 #endif
-    var_out = extract_h (L_rounded);
+	var_out = extract_h(L_rounded);
 #if (WMOPS)
-    multiCounter[currCounter].extract_h--;
-    multiCounter[currCounter].round++;
+	multiCounter[currCounter].extract_h--;
+	multiCounter[currCounter].round++;
 #endif
-    return (var_out);
+	return (var_out);
 }
 
 /*___________________________________________________________________________
@@ -762,23 +738,22 @@ Word16 round (Word32 L_var1)
  |             32 bit long signed integer (Word32) whose value falls in the  |
  |             range : 0x8000 0000 <= L_var_out <= 0x7fff ffff.              |
  |___________________________________________________________________________|
-*/
+ */
 
-Word32 L_mac (Word32 L_var3, Word16 var1, Word16 var2)
-{
-    Word32 L_var_out;
-    Word32 L_product;
+Word32 L_mac (const Word32 L_var3, const Word16 var1, const Word16 var2) {
+	Word32 L_var_out;
+	Word32 L_product;
 
-    L_product = L_mult (var1, var2);
+	L_product = L_mult(var1, var2);
 #if (WMOPS)
-    multiCounter[currCounter].L_mult--;
+	multiCounter[currCounter].L_mult--;
 #endif
-    L_var_out = L_add (L_var3, L_product);
+	L_var_out = L_add(L_var3, L_product);
 #if (WMOPS)
-    multiCounter[currCounter].L_add--;
-    multiCounter[currCounter].L_mac++;
+	multiCounter[currCounter].L_add--;
+	multiCounter[currCounter].L_mac++;
 #endif
-    return (L_var_out);
+	return (L_var_out);
 }
 
 /*___________________________________________________________________________
@@ -816,23 +791,22 @@ Word32 L_mac (Word32 L_var3, Word16 var1, Word16 var2)
  |             32 bit long signed integer (Word32) whose value falls in the  |
  |             range : 0x8000 0000 <= L_var_out <= 0x7fff ffff.              |
  |___________________________________________________________________________|
-*/
+ */
 
-Word32 L_msu (Word32 L_var3, Word16 var1, Word16 var2)
-{
-    Word32 L_var_out;
-    Word32 L_product;
+Word32 L_msu (const Word32 L_var3, const Word16 var1, const Word16 var2) {
+	Word32 L_var_out;
+	Word32 L_product;
 
-    L_product = L_mult (var1, var2);
+	L_product = L_mult(var1, var2);
 #if (WMOPS)
-    multiCounter[currCounter].L_mult--;
+	multiCounter[currCounter].L_mult--;
 #endif
-    L_var_out = L_sub (L_var3, L_product);
+	L_var_out = L_sub(L_var3, L_product);
 #if (WMOPS)
-    multiCounter[currCounter].L_sub--;
-    multiCounter[currCounter].L_msu++;
+	multiCounter[currCounter].L_sub--;
+	multiCounter[currCounter].L_msu++;
 #endif
-    return (L_var_out);
+	return (L_var_out);
 }
 
 /*___________________________________________________________________________
@@ -876,22 +850,21 @@ Word32 L_msu (Word32 L_var3, Word16 var1, Word16 var2)
  |    In some cases the Carry flag has to be cleared or set before using     |
  |    operators which take into account its value.                           |
  |___________________________________________________________________________|
-*/
+ */
 
-Word32 L_macNs (Word32 L_var3, Word16 var1, Word16 var2)
-{
-    Word32 L_var_out;
+Word32 L_macNs (const Word32 L_var3, const Word16 var1, const Word16 var2) {
+	Word32 L_var_out;
 
-    L_var_out = L_mult (var1, var2);
+	L_var_out = L_mult(var1, var2);
 #if (WMOPS)
-    multiCounter[currCounter].L_mult--;
+	multiCounter[currCounter].L_mult--;
 #endif
-    L_var_out = L_add_c (L_var3, L_var_out);
+	L_var_out = L_add_c(L_var3, L_var_out);
 #if (WMOPS)
-    multiCounter[currCounter].L_add_c--;
-    multiCounter[currCounter].L_macNs++;
+	multiCounter[currCounter].L_add_c--;
+	multiCounter[currCounter].L_macNs++;
 #endif
-    return (L_var_out);
+	return (L_var_out);
 }
 
 /*___________________________________________________________________________
@@ -935,22 +908,21 @@ Word32 L_macNs (Word32 L_var3, Word16 var1, Word16 var2)
  |    In some cases the Carry flag has to be cleared or set before using     |
  |    operators which take into account its value.                           |
  |___________________________________________________________________________|
-*/
+ */
 
-Word32 L_msuNs (Word32 L_var3, Word16 var1, Word16 var2)
-{
-    Word32 L_var_out;
+Word32 L_msuNs (const Word32 L_var3, const Word16 var1, const Word16 var2) {
+	Word32 L_var_out;
 
-    L_var_out = L_mult (var1, var2);
+	L_var_out = L_mult(var1, var2);
 #if (WMOPS)
-    multiCounter[currCounter].L_mult--;
+	multiCounter[currCounter].L_mult--;
 #endif
-    L_var_out = L_sub_c (L_var3, L_var_out);
+	L_var_out = L_sub_c(L_var3, L_var_out);
 #if (WMOPS)
-    multiCounter[currCounter].L_sub_c--;
-    multiCounter[currCounter].L_msuNs++;
+	multiCounter[currCounter].L_sub_c--;
+	multiCounter[currCounter].L_msuNs++;
 #endif
-    return (L_var_out);
+	return (L_var_out);
 }
 
 /*___________________________________________________________________________
@@ -983,31 +955,28 @@ Word32 L_msuNs (Word32 L_var3, Word16 var1, Word16 var2)
  |             32 bit long signed integer (Word32) whose value falls in the  |
  |             range : 0x8000 0000 <= L_var_out <= 0x7fff ffff.              |
  |___________________________________________________________________________|
-*/
+ */
 
-Word32 L_add (Word32 L_var1, Word32 L_var2)
-{
 #ifndef C6748_OPTIMAZED
-    Word32 L_var_out;
+Word32 L_add (const Word32 L_var1, const Word32 L_var2) {
+	Word32 L_var_out;
 
-    L_var_out = L_var1 + L_var2;
+	L_var_out = L_var1 + L_var2;
 
-    if (((L_var1 ^ L_var2) & MIN_32) == 0)
-    {
-        if ((L_var_out ^ L_var1) & MIN_32)
-        {
-            L_var_out = (L_var1 < 0) ? MIN_32 : MAX_32;
-            Overflow = 1;
-        }
-    }
+	if (((L_var1 ^ L_var2) & MIN_32) == 0)
+	{
+		if ((L_var_out ^ L_var1) & MIN_32)
+		{
+			L_var_out = (L_var1 < 0) ? MIN_32 : MAX_32;
+			Overflow = 1;
+		}
+	}
 #if (WMOPS)
-    multiCounter[currCounter].L_add++;
+	multiCounter[currCounter].L_add++;
 #endif
-#else
-    Word32 L_var_out = _sadd(L_var1, L_var2);
-#endif
-    return (L_var_out);
+	return (L_var_out);
 }
+#endif
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -1039,32 +1008,28 @@ Word32 L_add (Word32 L_var1, Word32 L_var2)
  |             32 bit long signed integer (Word32) whose value falls in the  |
  |             range : 0x8000 0000 <= L_var_out <= 0x7fff ffff.              |
  |___________________________________________________________________________|
-*/
-
-Word32 L_sub (Word32 L_var1, Word32 L_var2)
-{
+ */
 #ifndef C6748_OPTIMAZED
-    Word32 L_var_out;
+Word32 L_sub (const Word32 L_var1, const Word32 L_var2) {
+	Word32 L_var_out;
 
-    L_var_out = L_var1 - L_var2;
+	L_var_out = L_var1 - L_var2;
 
-    if (((L_var1 ^ L_var2) & MIN_32) != 0)
-    {
-        if ((L_var_out ^ L_var1) & MIN_32)
-        {
-            L_var_out = (L_var1 < 0L) ? MIN_32 : MAX_32;
-            Overflow = 1;
-        }
-    }
+	if (((L_var1 ^ L_var2) & MIN_32) != 0)
+	{
+		if ((L_var_out ^ L_var1) & MIN_32)
+		{
+			L_var_out = (L_var1 < 0L) ? MIN_32 : MAX_32;
+			Overflow = 1;
+		}
+	}
 #if (WMOPS)
-    multiCounter[currCounter].L_sub++;
+	multiCounter[currCounter].L_sub++;
 #endif
 
-#else
-    Word32 L_var_out = _ssub(L_var1, L_var2);
-#endif
-    return (L_var_out);
+	return (L_var_out);
 }
+#endif
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -1102,80 +1067,65 @@ Word32 L_sub (Word32 L_var1, Word32 L_var2)
  |    In some cases the Carry flag has to be cleared or set before using     |
  |    operators which take into account its value.                           |
  |___________________________________________________________________________|
-*/
-Word32 L_add_c (Word32 L_var1, Word32 L_var2)
-{
-    Word32 L_var_out;
-    Word32 L_test;
-    Flag carry_int = 0;
+ */
+Word32 L_add_c (const Word32 L_var1, const Word32 L_var2) {
+	Word32 L_var_out;
+	Word32 L_test;
+	Flag carry_int = 0;
 
-    L_var_out = L_var1 + L_var2 + Carry;
+	L_var_out = L_var1 + L_var2 + Carry;
 
-    L_test = L_var1 + L_var2;
+	L_test = L_var1 + L_var2;
 
-    if ((L_var1 > 0) && (L_var2 > 0) && (L_test < 0))
-    {
-        Overflow = 1;
-        carry_int = 0;
-    }
-    else
-    {
-        if ((L_var1 < 0) && (L_var2 < 0))
-        {
-            if (L_test >= 0)
-	    {
-                Overflow = 1;
-                carry_int = 1;
-	    }
-            else
-	    {
-                Overflow = 0;
-                carry_int = 1;
-	    }
-        }
-        else
-        {
-            if (((L_var1 ^ L_var2) < 0) && (L_test >= 0))
-            {
-                Overflow = 0;
-                carry_int = 1;
-            }
-            else
-            {
-                Overflow = 0;
-                carry_int = 0;
-            }
-        }
-    }
+	if ((L_var1 > 0) && (L_var2 > 0) && (L_test < 0)) {
+		Overflow = 1;
+		carry_int = 0;
+	}
+	else {
+		if ((L_var1 < 0) && (L_var2 < 0)) {
+			if (L_test >= 0) {
+				Overflow = 1;
+				carry_int = 1;
+			}
+			else {
+				Overflow = 0;
+				carry_int = 1;
+			}
+		}
+		else {
+			if (((L_var1 ^ L_var2) < 0) && (L_test >= 0)) {
+				Overflow = 0;
+				carry_int = 1;
+			}
+			else {
+				Overflow = 0;
+				carry_int = 0;
+			}
+		}
+	}
 
-    if (Carry)
-    {
-        if (L_test == MAX_32)
-        {
-            Overflow = 1;
-            Carry = carry_int;
-        }
-        else
-        {
-            if (L_test == (Word32) 0xFFFFFFFFL)
-            {
-                Carry = 1;
-            }
-            else
-            {
-                Carry = carry_int;
-            }
-        }
-    }
-    else
-    {
-        Carry = carry_int;
-    }
+	if (Carry) {
+		if (L_test == MAX_32) {
+			Overflow = 1;
+			Carry = carry_int;
+		}
+		else {
+			if (L_test == (Word32) 0xFFFFFFFFL) {
+				Carry = 1;
+			}
+			else {
+				Carry = carry_int;
+			}
+		}
+	}
+	else {
+		Carry = carry_int;
+	}
 
 #if (WMOPS)
-    multiCounter[currCounter].L_add_c++;
+	multiCounter[currCounter].L_add_c++;
 #endif
-    return (L_var_out);
+	return (L_var_out);
 }
 
 /*___________________________________________________________________________
@@ -1214,69 +1164,58 @@ Word32 L_add_c (Word32 L_var1, Word32 L_var2)
  |    In some cases the Carry flag has to be cleared or set before using     |
  |    operators which take into account its value.                           |
  |___________________________________________________________________________|
-*/
+ */
 
-Word32 L_sub_c (Word32 L_var1, Word32 L_var2)
-{
-    Word32 L_var_out;
-    Word32 L_test;
-    Flag carry_int = 0;
+Word32 L_sub_c (const Word32 L_var1, const Word32 L_var2) {
+	Word32 L_var_out;
+	Word32 L_test;
+	Flag carry_int = 0;
 
-    if (Carry)
-    {
-        Carry = 0;
-        if (L_var2 != MIN_32)
-        {
-            L_var_out = L_add_c (L_var1, -L_var2);
+	if (Carry) {
+		Carry = 0;
+		if (L_var2 != MIN_32) {
+			L_var_out = L_add_c(L_var1, -L_var2);
 #if (WMOPS)
-            multiCounter[currCounter].L_add_c--;
+			multiCounter[currCounter].L_add_c--;
 #endif
-        }
-        else
-        {
-            L_var_out = L_var1 - L_var2;
-            if (L_var1 > 0L)
-            {
-                Overflow = 1;
-                Carry = 0;
-            }
-        }
-    }
-    else
-    {
-        L_var_out = L_var1 - L_var2 - (Word32) 0X00000001L;
-        L_test = L_var1 - L_var2;
+		}
+		else {
+			L_var_out = L_var1 - L_var2;
+			if (L_var1 > 0L) {
+				Overflow = 1;
+				Carry = 0;
+			}
+		}
+	}
+	else {
+		L_var_out = L_var1 - L_var2 - (Word32) 0X00000001L;
+		L_test = L_var1 - L_var2;
 
-        if ((L_test < 0) && (L_var1 > 0) && (L_var2 < 0))
-        {
-            Overflow = 1;
-            carry_int = 0;
-        }
-        else if ((L_test > 0) && (L_var1 < 0) && (L_var2 > 0))
-        {
-            Overflow = 1;
-            carry_int = 1;
-        }
-        else if ((L_test > 0) && ((L_var1 ^ L_var2) > 0))
-        {
-            Overflow = 0;
-            carry_int = 1;
-        }
-        if (L_test == MIN_32)
-        {
-            Overflow = 1;
-            Carry = carry_int;
-        }
-        else
-        {
-            Carry = carry_int;
-        }
-    }
+		if ((L_test < 0) && (L_var1 > 0) && (L_var2 < 0)) {
+			Overflow = 1;
+			carry_int = 0;
+		}
+		else if ((L_test > 0) && (L_var1 < 0) && (L_var2 > 0)) {
+			Overflow = 1;
+			carry_int = 1;
+		}
+		else if ((L_test > 0) && ((L_var1 ^ L_var2) > 0)) {
+			Overflow = 0;
+			carry_int = 1;
+		}
+		if (L_test == MIN_32) {
+			Overflow = 1;
+			Carry = carry_int;
+		}
+		else {
+			Carry = carry_int;
+		}
+	}
 
 #if (WMOPS)
-    multiCounter[currCounter].L_sub_c++;
+	multiCounter[currCounter].L_sub_c++;
 #endif
-    return (L_var_out);
+	return (L_var_out);
 }
 
 /*___________________________________________________________________________
@@ -1305,17 +1244,16 @@ Word32 L_sub_c (Word32 L_var1, Word32 L_var2)
  |             32 bit long signed integer (Word32) whose value falls in the  |
  |             range : 0x8000 0000 <= L_var_out <= 0x7fff ffff.              |
  |___________________________________________________________________________|
-*/
+ */
 
-Word32 L_negate (Word32 L_var1)
-{
-    Word32 L_var_out;
+Word32 L_negate (const Word32 L_var1) {
+	Word32 L_var_out;
 
-    L_var_out = (L_var1 == MIN_32) ? MAX_32 : -L_var1;
+	L_var_out = (L_var1 == MIN_32 ) ? MAX_32 : -L_var1;
 #if (WMOPS)
-    multiCounter[currCounter].L_negate++;
+	multiCounter[currCounter].L_negate++;
 #endif
-    return (L_var_out);
+	return (L_var_out);
 }
 
 /*___________________________________________________________________________
@@ -1350,30 +1288,30 @@ Word32 L_negate (Word32 L_var1)
  |             16 bit short signed integer (Word16) whose value falls in the |
  |             range : 0xffff 8000 <= var_out <= 0x0000 7fff.                |
  |___________________________________________________________________________|
-*/
+ */
 
-Word16 mult_r (Word16 var1, Word16 var2)
-{
-    Word16 var_out;
-    Word32 L_product_arr;
+#ifndef C6748_OPTIMAZED
+Word16 mult_r (const Word16 var1, const Word16 var2) {
 
-    L_product_arr = (Word32) var1 *(Word32) var2;       /* product */
-    L_product_arr += (Word32) 0x00004000L;      /* round */
-    L_product_arr &= (Word32) 0xffff8000L;
-    L_product_arr >>= 15;       /* shift */
+	Word16 var_out;
+	Word32 L_product_arr;
 
-    if (L_product_arr & (Word32) 0x00010000L)   /* sign extend when necessary */
-    {
-        L_product_arr |= (Word32) 0xffff0000L;
-    }
-    var_out = saturate (L_product_arr);
+	L_product_arr = (Word32) var1 * (Word32) var2; /* product */
+	L_product_arr += (Word32) 0x00004000L; /* round */
+	L_product_arr &= (Word32) 0xffff8000L;
+	L_product_arr >>= 15; /* shift */
+
+	if (L_product_arr & (Word32) 0x00010000L) /* sign extend when necessary */
+	{
+		L_product_arr |= (Word32) 0xffff0000L;
+	}
+	var_out = saturate(L_product_arr);
 #if (WMOPS)
-    multiCounter[currCounter].mult_r++;
+	multiCounter[currCounter].mult_r++;
 #endif
-
-    // _mpylir // -32768 è -32768
-    return (var_out);
+	return (var_out);
 }
+#endif
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -1407,48 +1345,44 @@ Word16 mult_r (Word16 var1, Word16 var2)
  |             32 bit long signed integer (Word32) whose value falls in the  |
  |             range : 0x8000 0000 <= L_var_out <= 0x7fff ffff.              |
  |___________________________________________________________________________|
-*/
+ */
 
-Word32 L_shl (Word32 L_var1, Word16 var2)
-{
-    Word32 L_var_out=0;
+Word32 L_shl (const Word32 L_var1, const Word16 var2) {
 
-    if (var2 <= 0)
-    {
-        if (var2 < -32)
-            var2 = -32;
-        L_var_out = L_shr (L_var1, -var2);
+	Word32 L_var1_t = L_var1;
+	Word16 var2_t = var2;
+	Word32 L_var_out = 0;
+
+	if (var2_t <= 0) {
+		if (var2_t < -32)
+			var2_t = -32;
+		L_var_out = L_shr(L_var1_t, -var2_t);
 #if (WMOPS)
-        multiCounter[currCounter].L_shr--;
+		multiCounter[currCounter].L_shr--;
 #endif
-    }
-    else
-    {
-        for (; var2 > 0; var2--)
-        {
-            if (L_var1 > (Word32) 0X3fffffffL)
-            {
-                Overflow = 1;
-                L_var_out = MAX_32;
-                break;
-            }
-            else
-            {
-                if (L_var1 < (Word32) 0xc0000000L)
-                {
-                    Overflow = 1;
-                    L_var_out = MIN_32;
-                    break;
-                }
-            }
-            L_var1 *= 2;
-            L_var_out = L_var1;
-        }
-    }
+	}
+	else {
+		for (; var2_t > 0; var2_t--) {
+			if (L_var1_t > (Word32) 0X3fffffffL) {
+				Overflow = 1;
+				L_var_out = MAX_32;
+				break;
+			}
+			else {
+				if (L_var1_t < (Word32) 0xc0000000L) {
+					Overflow = 1;
+					L_var_out = MIN_32;
+					break;
+				}
+			}
+			L_var1_t *= 2;
+			L_var_out = L_var1_t;
+		}
+	}
 #if (WMOPS)
-    multiCounter[currCounter].L_shl++;
+	multiCounter[currCounter].L_shl++;
 #endif
-    return (L_var_out);
+	return (L_var_out);
 }
 
 /*___________________________________________________________________________
@@ -1483,43 +1417,38 @@ Word32 L_shl (Word32 L_var1, Word16 var2)
  |             32 bit long signed integer (Word32) whose value falls in the  |
  |             range : 0x8000 0000 <= L_var_out <= 0x7fff ffff.              |
  |___________________________________________________________________________|
-*/
+ */
 
-Word32 L_shr (Word32 L_var1, Word16 var2)
-{
-    Word32 L_var_out;
+Word32 L_shr (const Word32 L_var1, const Word16 var2) {
 
-    if (var2 < 0)
-    {
-        if (var2 < -32)
-            var2 = -32;
-        L_var_out = L_shl (L_var1, -var2);
+	Word16 var2_t = var2;
+	Word32 L_var_out;
+
+	if (var2_t < 0) {
+		if (var2_t < -32)
+			var2_t = -32;
+		L_var_out = L_shl(L_var1, -var2_t);
 #if (WMOPS)
-        multiCounter[currCounter].L_shl--;
+		multiCounter[currCounter].L_shl--;
 #endif
-    }
-    else
-    {
-        if (var2 >= 31)
-        {
-            L_var_out = (L_var1 < 0L) ? -1 : 0;
-        }
-        else
-        {
-            if (L_var1 < 0)
-            {
-                L_var_out = ~((~L_var1) >> var2);
-            }
-            else
-            {
-                L_var_out = L_var1 >> var2;
-            }
-        }
-    }
+	}
+	else {
+		if (var2_t >= 31) {
+			L_var_out = (L_var1 < 0L) ? -1 : 0;
+		}
+		else {
+			if (L_var1 < 0) {
+				L_var_out = ~((~L_var1) >> var2_t);
+			}
+			else {
+				L_var_out = L_var1 >> var2_t;
+			}
+		}
+	}
 #if (WMOPS)
-    multiCounter[currCounter].L_shr++;
+	multiCounter[currCounter].L_shr++;
 #endif
-    return (L_var_out);
+	return (L_var_out);
 }
 
 /*___________________________________________________________________________
@@ -1562,35 +1491,30 @@ Word32 L_shr (Word32 L_var1, Word16 var2)
  |             16 bit short signed integer (Word16) whose value falls in the |
  |             range : 0xffff 8000 <= var_out <= 0x0000 7fff.                |
  |___________________________________________________________________________|
-*/
+ */
 
-Word16 shr_r (Word16 var1, Word16 var2)
-{
-    Word16 var_out;
+Word16 shr_r (const Word16 var1, const Word16 var2) {
+	Word16 var_out;
 
-    if (var2 > 15)
-    {
-        var_out = 0;
-    }
-    else
-    {
-        var_out = shr (var1, var2);
+	if (var2 > 15) {
+		var_out = 0;
+	}
+	else {
+		var_out = shr(var1, var2);
 #if (WMOPS)
-        multiCounter[currCounter].shr--;
+		multiCounter[currCounter].shr--;
 #endif
 
-        if (var2 > 0)
-        {
-            if ((var1 & ((Word16) 1 << (var2 - 1))) != 0)
-            {
-                var_out++;
-            }
-        }
-    }
+		if (var2 > 0) {
+			if ((var1 & ((Word16) 1 << (var2 - 1))) != 0) {
+				var_out++;
+			}
+		}
+	}
 #if (WMOPS)
-    multiCounter[currCounter].shr_r++;
+	multiCounter[currCounter].shr_r++;
 #endif
-    return (var_out);
+	return (var_out);
 }
 
 /*___________________________________________________________________________
@@ -1630,26 +1554,25 @@ Word16 shr_r (Word16 var1, Word16 var2)
  |             16 bit short signed integer (Word16) whose value falls in the |
  |             range : 0x0000 8000 <= L_var_out <= 0x0000 7fff.              |
  |___________________________________________________________________________|
-*/
+ */
 
-Word16 mac_r (Word32 L_var3, Word16 var1, Word16 var2)
-{
-    Word16 var_out;
+Word16 mac_r (const Word32 L_var3, const Word16 var1, const Word16 var2) {
+	Word16 var_out;
 
-    L_var3 = L_mac (L_var3, var1, var2);
+	Word32 L_temp = L_mac(L_var3, var1, var2);
 #if (WMOPS)
-    multiCounter[currCounter].L_mac--;
+	multiCounter[currCounter].L_mac--;
 #endif
-    L_var3 = L_add (L_var3, (Word32) 0x00008000L);
+	L_temp = L_add(L_temp, (Word32) 0x00008000L);
 #if (WMOPS)
-    multiCounter[currCounter].L_add--;
+	multiCounter[currCounter].L_add--;
 #endif
-    var_out = extract_h (L_var3);
+	var_out = extract_h(L_temp);
 #if (WMOPS)
-    multiCounter[currCounter].extract_h--;
-    multiCounter[currCounter].mac_r++;
+	multiCounter[currCounter].extract_h--;
+	multiCounter[currCounter].mac_r++;
 #endif
-    return (var_out);
+	return (var_out);
 }
 
 /*___________________________________________________________________________
@@ -1689,26 +1612,25 @@ Word16 mac_r (Word32 L_var3, Word16 var1, Word16 var2)
  |             16 bit short signed integer (Word16) whose value falls in the |
  |             range : 0x0000 8000 <= L_var_out <= 0x0000 7fff.              |
  |___________________________________________________________________________|
-*/
+ */
 
-Word16 msu_r (Word32 L_var3, Word16 var1, Word16 var2)
-{
-    Word16 var_out;
+Word16 msu_r (const Word32 L_var3, const Word16 var1, const Word16 var2) {
+	Word16 var_out;
 
-    L_var3 = L_msu (L_var3, var1, var2);
+	Word32 L_temp = L_msu(L_var3, var1, var2);
 #if (WMOPS)
-    multiCounter[currCounter].L_msu--;
+	multiCounter[currCounter].L_msu--;
 #endif
-    L_var3 = L_add (L_var3, (Word32) 0x00008000L);
+	L_temp = L_add(L_temp, (Word32) 0x00008000L);
 #if (WMOPS)
-    multiCounter[currCounter].L_add--;
+	multiCounter[currCounter].L_add--;
 #endif
-    var_out = extract_h (L_var3);
+	var_out = extract_h(L_temp);
 #if (WMOPS)
-    multiCounter[currCounter].extract_h--;
-    multiCounter[currCounter].msu_r++;
+	multiCounter[currCounter].extract_h--;
+	multiCounter[currCounter].msu_r++;
 #endif
-    return (var_out);
+	return (var_out);
 }
 
 /*___________________________________________________________________________
@@ -1738,17 +1660,16 @@ Word16 msu_r (Word32 L_var3, Word16 var1, Word16 var2)
  |             32 bit long signed integer (Word32) whose value falls in the  |
  |             range : 0x8000 0000 <= var_out <= 0x7fff 0000.                |
  |___________________________________________________________________________|
-*/
+ */
 
-Word32 L_deposit_h (Word16 var1)
-{
-    Word32 L_var_out;
+Word32 L_deposit_h (const Word16 var1) {
+	Word32 L_var_out;
 
-    L_var_out = (Word32) var1 << 16;
+	L_var_out = (Word32) var1 << 16;
 #if (WMOPS)
-    multiCounter[currCounter].L_deposit_h++;
+	multiCounter[currCounter].L_deposit_h++;
 #endif
-    return (L_var_out);
+	return (L_var_out);
 }
 
 /*___________________________________________________________________________
@@ -1778,17 +1699,16 @@ Word32 L_deposit_h (Word16 var1)
  |             32 bit long signed integer (Word32) whose value falls in the  |
  |             range : 0xFFFF 8000 <= var_out <= 0x0000 7fff.                |
  |___________________________________________________________________________|
-*/
+ */
 
-Word32 L_deposit_l (Word16 var1)
-{
-    Word32 L_var_out;
+Word32 L_deposit_l (const Word16 var1) {
+	Word32 L_var_out;
 
-    L_var_out = (Word32) var1;
+	L_var_out = (Word32) var1;
 #if (WMOPS)
-    multiCounter[currCounter].L_deposit_l++;
+	multiCounter[currCounter].L_deposit_l++;
 #endif
-    return (L_var_out);
+	return (L_var_out);
 }
 
 /*___________________________________________________________________________
@@ -1831,34 +1751,29 @@ Word32 L_deposit_l (Word16 var1)
  |             32 bit long signed integer (Word32) whose value falls in the  |
  |             range : 0x8000 0000 <= var_out <= 0x7fff ffff.                |
  |___________________________________________________________________________|
-*/
+ */
 
-Word32 L_shr_r (Word32 L_var1, Word16 var2)
-{
-    Word32 L_var_out;
+Word32 L_shr_r (const Word32 L_var1, const Word16 var2) {
+	Word32 L_var_out;
 
-    if (var2 > 31)
-    {
-        L_var_out = 0;
-    }
-    else
-    {
-        L_var_out = L_shr (L_var1, var2);
+	if (var2 > 31) {
+		L_var_out = 0;
+	}
+	else {
+		L_var_out = L_shr(L_var1, var2);
 #if (WMOPS)
-        multiCounter[currCounter].L_shr--;
+		multiCounter[currCounter].L_shr--;
 #endif
-        if (var2 > 0)
-        {
-            if ((L_var1 & ((Word32) 1 << (var2 - 1))) != 0)
-            {
-                L_var_out++;
-            }
-        }
-    }
+		if (var2 > 0) {
+			if ((L_var1 & ((Word32) 1 << (var2 - 1))) != 0) {
+				L_var_out++;
+			}
+		}
+	}
 #if (WMOPS)
-    multiCounter[currCounter].L_shr_r++;
+	multiCounter[currCounter].L_shr_r++;
 #endif
-    return (L_var_out);
+	return (L_var_out);
 }
 
 /*___________________________________________________________________________
@@ -1888,38 +1803,33 @@ Word32 L_shr_r (Word32 L_var1, Word16 var2)
  |             32 bit long signed integer (Word32) whose value falls in the  |
  |             range : 0x0000 0000 <= var_out <= 0x7fff ffff.                |
  |___________________________________________________________________________|
-*/
-
-Word32 L_abs (Word32 L_var1)
-{
+ */
 #ifndef C6748_OPTIMAZED
+Word32 L_abs (const Word32 L_var1) {
 	Word32 L_var_out;
 
-    if (L_var1 == MIN_32)
-    {
-        L_var_out = MAX_32;
-    }
-    else
-    {
-        if (L_var1 < 0)
-        {
-            L_var_out = -L_var1;
-        }
-        else
-        {
-            L_var_out = L_var1;
-        }
-    }
+	if (L_var1 == MIN_32)
+	{
+		L_var_out = MAX_32;
+	}
+	else
+	{
+		if (L_var1 < 0)
+		{
+			L_var_out = -L_var1;
+		}
+		else
+		{
+			L_var_out = L_var1;
+		}
+	}
 
 #if (WMOPS)
-    multiCounter[currCounter].L_abs++;
+	multiCounter[currCounter].L_abs++;
 #endif
-
-#else
-    Word32 L_var_out = _abs(L_var1);
-#endif
-    return (L_var_out);
+	return (L_var_out);
 }
+#endif
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -1950,33 +1860,29 @@ Word32 L_abs (Word32 L_var1)
  |             32 bit long signed integer (Word32) whose value falls in the  |
  |             range : 0x8000 0000 <= var_out <= 0x7fff ffff.                |
  |___________________________________________________________________________|
-*/
+ */
 
-Word32 L_sat (Word32 L_var1)
-{
-    Word32 L_var_out;
+Word32 L_sat (const Word32 L_var1) {
+	Word32 L_var_out;
 
-    L_var_out = L_var1;
+	L_var_out = L_var1;
 
-    if (Overflow)
-    {
+	if (Overflow) {
 
-        if (Carry)
-        {
-            L_var_out = MIN_32;
-        }
-        else
-        {
-            L_var_out = MAX_32;
-        }
+		if (Carry) {
+			L_var_out = MIN_32;
+		}
+		else {
+			L_var_out = MAX_32;
+		}
 
-        Carry = 0;
-        Overflow = 0;
-    }
+		Carry = 0;
+		Overflow = 0;
+	}
 #if (WMOPS)
-    multiCounter[currCounter].L_sat++;
+	multiCounter[currCounter].L_sat++;
 #endif
-    return (L_var_out);
+	return (L_var_out);
 }
 
 /*___________________________________________________________________________
@@ -2010,39 +1916,34 @@ Word32 L_sat (Word32 L_var1)
  |             16 bit short signed integer (Word16) whose value falls in the |
  |             range : 0x0000 0000 <= var_out <= 0x0000 000f.                |
  |___________________________________________________________________________|
-*/
+ */
 
-Word16 norm_s (Word16 var1)
-{
-    Word16 var_out;
+Word16 norm_s (const Word16 var1) {
 
-    if (var1 == 0)
-    {
-        var_out = 0;
-    }
-    else
-    {
-        if (var1 == (Word16) 0xffff)
-        {
-            var_out = 15;
-        }
-        else
-        {
-            if (var1 < 0)
-            {
-                var1 = ~var1;
-            }
-            for (var_out = 0; var1 < 0x4000; var_out++)
-            {
-                var1 <<= 1;
-            }
-        }
-    }
+	Word16 var1_t = var1;
+	Word16 var_out;
+
+	if (var1_t == 0) {
+		var_out = 0;
+	}
+	else {
+		if (var1_t == (Word16) 0xffff) {
+			var_out = 15;
+		}
+		else {
+			if (var1_t < 0) {
+				var1_t = ~var1_t;
+			}
+			for (var_out = 0; var1_t < 0x4000; var_out++) {
+				var1_t <<= 1;
+			}
+		}
+	}
 
 #if (WMOPS)
-    multiCounter[currCounter].norm_s++;
+	multiCounter[currCounter].norm_s++;
 #endif
-    return (var_out);
+	return (var_out);
 }
 
 /*___________________________________________________________________________
@@ -2080,70 +1981,61 @@ Word16 norm_s (Word16 var1)
  |             range : 0x0000 0000 <= var_out <= 0x0000 7fff.                |
  |             It's a Q15 value (point between b15 and b14).                 |
  |___________________________________________________________________________|
-*/
+ */
 
-Word16 div_s (Word16 var1, Word16 var2)
-{
-    Word16 var_out = 0;
-    Word16 iteration;
-    Word32 L_num;
-    Word32 L_denom;
+Word16 div_s (const Word16 var1, const Word16 var2) {
+	Word16 var_out = 0;
+	Word16 iteration;
+	Word32 L_num;
+	Word32 L_denom;
 
-    if ((var1 > var2) || (var1 < 0) || (var2 < 0))
-    {
-        printf ("Division Error var1=%d  var2=%d\n", var1, var2);
-        abort(); /* exit (0); */
-    }
-    if (var2 == 0)
-    {
-        printf ("Division by 0, Fatal error \n");
-        abort(); /* exit (0); */
-    }
-    if (var1 == 0)
-    {
-        var_out = 0;
-    }
-    else
-    {
-        if (var1 == var2)
-        {
-            var_out = MAX_16;
-        }
-        else
-        {
-            L_num = L_deposit_l (var1);
+	if ((var1 > var2) || (var1 < 0) || (var2 < 0)) {
+		printf("Division Error var1=%d  var2=%d\n", var1, var2);
+		abort(); /* exit (0); */
+	}
+	if (var2 == 0) {
+		printf("Division by 0, Fatal error \n");
+		abort(); /* exit (0); */
+	}
+	if (var1 == 0) {
+		var_out = 0;
+	}
+	else {
+		if (var1 == var2) {
+			var_out = MAX_16;
+		}
+		else {
+			L_num = L_deposit_l(var1);
 #if (WMOPS)
-            multiCounter[currCounter].L_deposit_l--;
+			multiCounter[currCounter].L_deposit_l--;
 #endif
-            L_denom = L_deposit_l (var2);
+			L_denom = L_deposit_l(var2);
 #if (WMOPS)
-            multiCounter[currCounter].L_deposit_l--;
+			multiCounter[currCounter].L_deposit_l--;
 #endif
 
-            for (iteration = 0; iteration < 15; iteration++)
-            {
-                var_out <<= 1;
-                L_num <<= 1;
+			for (iteration = 0; iteration < 15; iteration++) {
+				var_out <<= 1;
+				L_num <<= 1;
 
-                if (L_num >= L_denom)
-                {
-                    L_num = L_sub (L_num, L_denom);
+				if (L_num >= L_denom) {
+					L_num = L_sub(L_num, L_denom);
 #if (WMOPS)
-                    multiCounter[currCounter].L_sub--;
+					multiCounter[currCounter].L_sub--;
 #endif
-                    var_out = add (var_out, 1);
+					var_out = add(var_out, 1);
 #if (WMOPS)
-                    multiCounter[currCounter].add--;
+					multiCounter[currCounter].add--;
 #endif
-                }
-            }
-        }
-    }
+				}
+			}
+		}
+	}
 
 #if (WMOPS)
-    multiCounter[currCounter].div_s++;
+	multiCounter[currCounter].div_s++;
 #endif
-    return (var_out);
+	return (var_out);
 }
 
 /*___________________________________________________________________________
@@ -2177,50 +2069,39 @@ Word16 div_s (Word16 var1, Word16 var2)
  |             16 bit short signed integer (Word16) whose value falls in the |
  |             range : 0x0000 0000 <= var_out <= 0x0000 001f.                |
  |___________________________________________________________________________|
-*/
+ */
 
-Word16 norm_l (Word32 L_var1)
-{
 #ifndef C6748_OPTIMAZED
-    Word16 var_out;
+Word16 norm_l (const Word32 L_var1) {
+	Word16 var_out;
 
-    if (L_var1 == 0)
-    {
-        var_out = 0;
-    }
-    else
-    {
-        if (L_var1 == (Word32) 0xffffffffL)
-        {
-            var_out = 31;
-        }
-        else
-        {
-            if (L_var1 < 0)
-            {
-                L_var1 = ~L_var1;
-            }
-            for (var_out = 0; L_var1 < (Word32) 0x40000000L; var_out++)
-            {
-                L_var1 <<= 1;
-            }
-        }
-    }
+	if (L_var1 == 0)
+	{
+		var_out = 0;
+	}
+	else
+	{
+		if (L_var1 == (Word32) 0xffffffffL)
+		{
+			var_out = 31;
+		}
+		else
+		{
+			if (L_var1 < 0)
+			{
+				L_var1 = ~L_var1;
+			}
+			for (var_out = 0; L_var1 < (Word32) 0x40000000L; var_out++)
+			{
+				L_var1 <<= 1;
+			}
+		}
+	}
 
 #if (WMOPS)
-    multiCounter[currCounter].norm_l++;
+	multiCounter[currCounter].norm_l++;
 #endif
 
-#else
-    Word16 var_out;
-    if (L_var1 == 0)
-    {
-        var_out = 0;
-    }
-    else {
-    	var_out = _norm(L_var1);
-    }
-#endif
-    return (var_out);
+	return (var_out);
 }
-
+#endif

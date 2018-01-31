@@ -50,12 +50,17 @@ void imbe_vocoder::encode_init(void)
 	pitch_ref_init();
 }
 
-
+#include <ti/sysbios/hal/Seconds.h>
+#include <ti/sysbios/interfaces/ISeconds.h>
+ISeconds_Time ts1, ts2;
+ISeconds_Time resultTime1, resultTime2, resultTime3, resultTime4, resultTime5;
 void imbe_vocoder::encode(IMBE_PARAM *imbe_param, Word16 *frame_vector, Word16 *snd)
 {
 	Word16 i;
 	Word16 *wr_ptr, *sig_ptr;
 	
+	Seconds_getTime(&ts1);
+
 	for(i = 0; i < PITCH_EST_BUF_SIZE - FRAME; i++)
 	{
 		pitch_est_buf[i] = pitch_est_buf[i + FRAME];
@@ -65,8 +70,19 @@ void imbe_vocoder::encode(IMBE_PARAM *imbe_param, Word16 *frame_vector, Word16 *
 	dc_rmv(snd, &pitch_ref_buf[PITCH_EST_BUF_SIZE - FRAME], &dc_rmv_mem, FRAME);
 	pe_lpf(&pitch_ref_buf[PITCH_EST_BUF_SIZE - FRAME], &pitch_est_buf[PITCH_EST_BUF_SIZE - FRAME], pe_lpf_mem, FRAME);
 
+	Seconds_getTime(&ts2);
+	resultTime1.secs = (ts2.secs - ts1.secs);
+	resultTime1.nsecs = (ts2.nsecs - ts1.nsecs);
+
+	Seconds_getTime(&ts1);
+
 	pitch_est(imbe_param, pitch_est_buf);
 
+	Seconds_getTime(&ts2);
+	resultTime2.secs = (ts2.secs - ts1.secs);
+	resultTime2.nsecs = (ts2.nsecs - ts1.nsecs);
+
+	Seconds_getTime(&ts1);
     //
 	// Speech windowing and FFT calculation
 	//
@@ -88,11 +104,27 @@ void imbe_vocoder::encode(IMBE_PARAM *imbe_param, Word16 *frame_vector, Word16 *
 	for(i = 111; i < 146; i++) 
 		fft_buf[i].re = fft_buf[i].im = 0;
 
+	Seconds_getTime(&ts2);
+	resultTime3.secs = (ts2.secs - ts1.secs);
+	resultTime3.nsecs = (ts2.nsecs - ts1.nsecs);
+
+	Seconds_getTime(&ts1);
+
 	fft->directTransform(fft_buf);
+
+	Seconds_getTime(&ts2);
+	resultTime4.secs = (ts2.secs - ts1.secs);
+	resultTime4.nsecs = (ts2.nsecs - ts1.nsecs);
+
+	Seconds_getTime(&ts1);
 
 	pitch_ref(imbe_param, fft_buf);
 	v_uv_det(imbe_param, fft_buf);
 	sa_encode(imbe_param);
 	encode_frame_vector(imbe_param, frame_vector);
+
+	Seconds_getTime(&ts2);
+	resultTime5.secs = (ts2.secs - ts1.secs);
+	resultTime5.nsecs = (ts2.nsecs - ts1.nsecs);
 
 }

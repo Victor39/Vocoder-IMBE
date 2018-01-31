@@ -187,9 +187,10 @@ extern "C" void testImbeExecutionTime () {
 	ISeconds_Time ts1, ts2;
 	ISeconds_Time resultTime1, resultTime2;
 	bool doneSuccessfully1, doneSuccessfully2;
-	imbe_vocoder imbeEncoder;
-	imbe_vocoder imbeDecoder;
+
 	while (1) {
+		imbe_vocoder imbeEncoder;
+		imbe_vocoder imbeDecoder;
 		for (int ii = 0; ii < 3; ii++) {
 			{
 				Seconds_getTime(&ts1);
@@ -293,6 +294,7 @@ void testCorrectnessOfWork() {
 }
 
 #include <limits.h>
+extern Word16 mult2 (Word16 var1, Word16 var2);
 void testIntrinsicOperators() {
 //	#include "imbe_vocoder/basic_op.h"
 
@@ -305,21 +307,32 @@ void testIntrinsicOperators() {
 //	Word32 result1 = 0;
 //	Word32 result2 = 0;
 
+
+//	while(1) {
+//
+//		GPIOPinWrite(SOC_GPIO_0_REGS, 111, GPIO_PIN_HIGH);
+//		for(lhs = -32768, rhs = 32767; lhs < 32000; lhs+=3, rhs-=2) {
+//			result2 = mult2(lhs, rhs);
+//		}
+//		GPIOPinWrite(SOC_GPIO_0_REGS, 111, GPIO_PIN_LOW);
+//		Task_sleep(10);
+//	}
+
 	while(1) {
 		asm(" nop");
-		//result1 = mult(lhs, rhs);
-		//result2 = _mpylir(lhs, rhs);
+//		result1 = extract_h(lhs);
+//		result2 = _hill(lhs);
 
 //		int error = 0;
 //		for(lhs = - INT_MIN; lhs < INT_MAX; lhs++) {
-			result1 = shl(lhs, rhs);
-			result2 = _shr2(lhs, rhs);
+//			result1 = shl(lhs, rhs);
+//			result2 = _shr2(lhs, rhs);
 //			if(result1 != result2) {
 //				error
 //			}
 //		}
-//		result1 = mult_r(lhs, rhs);
-//		result2 = _mpylir(lhs, rhs);
+		result1 = mult(lhs, rhs);
+		result2 = _smpy(lhs, rhs);
 		asm(" nop");
 	}
 
