@@ -72,13 +72,31 @@ inline Word16 abs_s (const Word16 var1) {
 #endif
 
 /* Short shift left, 1 */
+#ifndef C6748_OPTIMAZED
 Word16 shl (const Word16 var1, const Word16 var2);
+#else
+inline Word16 shl (const Word16 var1, const Word16 var2) {
+	return _sshvl(var1, var2);
+}
+#endif
 
 /* Short shift right, 1 */
+#ifndef C6748_OPTIMAZED
 Word16 shr (const Word16 var1, const Word16 var2);
+#else
+	inline Word16 shr (const Word16 var1, const Word16 var2) {
+		return _sshvr(var1, var2);
+	}
+#endif
 
 /* Short mult, 1 */
+#ifndef C6748_OPTIMAZED
 Word16 mult (const Word16 var1, const Word16 var2);
+#else
+inline Word16 mult (const Word16 var1, const Word16 var2) {
+	return _mpylir(var1, var2);
+}
+#endif
 
 /* Long mult, 1 */
 #ifndef C6748_OPTIMAZED
@@ -90,13 +108,31 @@ inline Word32 L_mult (const Word16 var1, const Word16 var2) {
 #endif
 
 /* Short negate, 1 */
+#ifndef C6748_OPTIMAZED
 Word16 negate (const Word16 var1);
+#else
+inline Word16 negate (const Word16 var1) {
+	return (var1 == MIN_16 ) ? MAX_16 : -var1;
+}
+#endif
 
 /* Extract high, 1 */
+#ifndef C6748_OPTIMAZED
 Word16 extract_h (const Word32 L_var1);
+#else
+inline Word16 extract_h (const Word32 L_var1) {
+	return (Word16) (L_var1 >> 16);
+}
+#endif
 
 /* Extract low, 1 */
+#ifndef C6748_OPTIMAZED
 Word16 extract_l (const Word32 L_var1);
+#else
+inline Word16 extract_l (const Word32 L_var1) {
+	return (Word16) L_var1;
+}
+#endif
 
 /* Round, 1 */
 Word16 round (const Word32 L_var1);
@@ -138,7 +174,13 @@ Word32 L_add_c (const Word32 L_var1, const Word32 L_var2);
 Word32 L_sub_c (const Word32 L_var1, const Word32 L_var2);
 
 /* Long negate, 2 */
+#ifndef C6748_OPTIMAZED
 Word32 L_negate (const Word32 L_var1);
+#else
+inline Word32 L_negate (const Word32 L_var1) {
+	return (L_var1 == MIN_32 ) ? MAX_32 : -L_var1;
+}
+#endif
 
 /* Mult with round, 2 */
 #ifndef C6748_OPTIMAZED
@@ -165,10 +207,22 @@ Word16 mac_r (const Word32 L_var3, const Word16 var1, const Word16 var2);
 Word16 msu_r (const Word32 L_var3, const Word16 var1, const Word16 var2);
 
 /* 16 bit var1 -> MSB, 2 */
+#ifndef C6748_OPTIMAZED
 Word32 L_deposit_h (const Word16 var1);
+#else
+inline Word32 L_deposit_h (const Word16 var1) {
+	return (Word32) var1 << 16;
+}
+#endif
 
 /* 16 bit var1 -> LSB, 2 */
+#ifndef C6748_OPTIMAZED
 Word32 L_deposit_l (const Word16 var1);
+#else
+inline Word32 L_deposit_l (const Word16 var1) {
+	return (Word32) var1;
+}
+#endif
 
 /* Long shift right with round, 3 */
 Word32 L_shr_r (const Word32 L_var1, const Word16 var2);
