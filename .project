@@ -25,4 +25,10 @@
 		<nature>org.eclipse.cdt.core.ccnature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
+	<variableList>
+		<variable>
+			<name>OMAPL138_STARTER_WARE</name>
+			<value>file:/C:/ti/OMAPL138_StarterWare_1_10_04_01</value>
+		</variable>
+	</variableList>
 </projectDescription>

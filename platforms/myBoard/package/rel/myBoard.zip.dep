@@ -1,0 +1,34 @@
+myBoard.zip: Platform.xdc
+Platform.xdc:
+myBoard.zip: Platform.xs
+Platform.xs:
+myBoard.zip: config.bld
+config.bld:
+myBoard.zip: package/.vers_b200
+package/.vers_b200:
+myBoard.zip: package/.vers_g200
+package/.vers_g200:
+myBoard.zip: package/.vers_r200
+package/.vers_r200:
+myBoard.zip: package/.xdc-D20
+package/.xdc-D20:
+myBoard.zip: package/build.cfg
+package/build.cfg:
+myBoard.zip: package/myBoard.ccs
+package/myBoard.ccs:
+myBoard.zip: package/myBoard.class
+package/myBoard.class:
+myBoard.zip: package/myBoard.java
+package/myBoard.java:
+myBoard.zip: package/myBoard.sch
+package/myBoard.sch:
+myBoard.zip: package/package.bld.xml
+package/package.bld.xml:
+myBoard.zip: package/package.defs.h
+package/package.defs.h:
+myBoard.zip: package/package_myBoard.c
+package/package_myBoard.c:
+myBoard.zip: package.bld
+package.bld:
+myBoard.zip: package.xdc
+package.xdc:

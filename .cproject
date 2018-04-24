@@ -43,14 +43,14 @@
 								<option id="com.ti.ccstudio.buildDefinitions.C6000_8.2.compilerID.SILICON_VERSION.204096528" name="Target processor version (--silicon_version, -mv)" superClass="com.ti.ccstudio.buildDefinitions.C6000_8.2.compilerID.SILICON_VERSION" value="6740" valueType="string"/>
 								<option id="com.ti.ccstudio.buildDefinitions.C6000_8.2.compilerID.ABI.1278772289" name="Application binary interface (coffabi not supported) (--abi)" superClass="com.ti.ccstudio.buildDefinitions.C6000_8.2.compilerID.ABI" value="com.ti.ccstudio.buildDefinitions.C6000_8.2.compilerID.ABI.eabi" valueType="enumerated"/>
 								<option id="com.ti.ccstudio.buildDefinitions.C6000_8.2.compilerID.INCLUDE_PATH.623382424" name="Add dir to #include search path (--include_path, -I)" superClass="com.ti.ccstudio.buildDefinitions.C6000_8.2.compilerID.INCLUDE_PATH" valueType="includePath">
-									<listOptionValue builtIn="false" value="C:\ti\OMAPL138_StarterWare_1_10_04_01\include"/>
-									<listOptionValue builtIn="false" value="C:\ti\OMAPL138_StarterWare_1_10_04_01\include\c674x"/>
-									<listOptionValue builtIn="false" value="C:\ti\OMAPL138_StarterWare_1_10_04_01\include\c674x\omapl138"/>
-									<listOptionValue builtIn="false" value="C:\ti\OMAPL138_StarterWare_1_10_04_01\include\hw"/>
-									<listOptionValue builtIn="false" value="${PROJECT_ROOT}"/>
+									<listOptionValue builtIn="false" value="${OMAPL138_STARTER_WARE}\include"/>
+									<listOptionValue builtIn="false" value="${OMAPL138_STARTER_WARE}\include\c674x"/>
+									<listOptionValue builtIn="false" value="${OMAPL138_STARTER_WARE}\include\c674x\omapl138"/>
+									<listOptionValue builtIn="false" value="${OMAPL138_STARTER_WARE}\include\hw"/>
+									<listOptionValue builtIn="false" value="${PROJECT_LOC}"/>
 									<listOptionValue builtIn="false" value="${CG_TOOL_ROOT}/include"/>
-									<listOptionValue builtIn="false" value="${PROJECT_ROOT}/sources/libs/dsp64x/include/"/>
-									<listOptionValue builtIn="false" value="${PROJECT_ROOT}/sources/imbe_vocoder/c6748_arithmetic"/>
+									<listOptionValue builtIn="false" value="${PROJECT_LOC}/sources/libs/dsp64x/include/"/>
+									<listOptionValue builtIn="false" value="${PROJECT_LOC}/sources/imbe_vocoder/c6748_arithmetic"/>
 								</option>
 								<option id="com.ti.ccstudio.buildDefinitions.C6000_8.2.compilerID.DEBUGGING_MODEL.1349168102" name="Debugging model" superClass="com.ti.ccstudio.buildDefinitions.C6000_8.2.compilerID.DEBUGGING_MODEL" value="com.ti.ccstudio.buildDefinitions.C6000_8.2.compilerID.DEBUGGING_MODEL.SYMDEBUG__DWARF" valueType="enumerated"/>
 								<option id="com.ti.ccstudio.buildDefinitions.C6000_8.2.compilerID.DIAG_WARNING.1324197355" name="Treat diagnostic &lt;id&gt; as warning (--diag_warning, -pdsw)" superClass="com.ti.ccstudio.buildDefinitions.C6000_8.2.compilerID.DIAG_WARNING" valueType="stringList">
@@ -75,13 +75,13 @@
 								<option id="com.ti.ccstudio.buildDefinitions.C6000_8.2.linkerID.OUTPUT_FILE.198071731" name="Specify output file name (--output_file, -o)" superClass="com.ti.ccstudio.buildDefinitions.C6000_8.2.linkerID.OUTPUT_FILE" value="${ProjName}.out" valueType="string"/>
 								<option id="com.ti.ccstudio.buildDefinitions.C6000_8.2.linkerID.LIBRARY.785891420" name="Include library file or command file as input (--library, -l)" superClass="com.ti.ccstudio.buildDefinitions.C6000_8.2.linkerID.LIBRARY" valueType="libs">
 									<listOptionValue builtIn="false" value="libc.a"/>
-									<listOptionValue builtIn="false" value="C:\ti\OMAPL138_StarterWare_1_10_04_01\binary\c674x\cgt_ccs\omapl138\lcdkOMAPL138\platform\Debug\platform.lib"/>
-									<listOptionValue builtIn="false" value="C:\ti\OMAPL138_StarterWare_1_10_04_01\binary\c674x\cgt_ccs\omapl138\drivers\Debug\drivers.lib"/>
+									<listOptionValue builtIn="false" value="${OMAPL138_STARTER_WARE}\binary\c674x\cgt_ccs\omapl138\lcdkOMAPL138\platform\Debug\platform.lib"/>
+									<listOptionValue builtIn="false" value="${OMAPL138_STARTER_WARE}\binary\c674x\cgt_ccs\omapl138\drivers\Debug\drivers.lib"/>
 								</option>
 								<option id="com.ti.ccstudio.buildDefinitions.C6000_8.2.linkerID.SEARCH_PATH.426972632" name="Add &lt;dir&gt; to library search path (--search_path, -i)" superClass="com.ti.ccstudio.buildDefinitions.C6000_8.2.linkerID.SEARCH_PATH" valueType="libPaths">
 									<listOptionValue builtIn="false" value="${CG_TOOL_ROOT}/lib"/>
 									<listOptionValue builtIn="false" value="${CG_TOOL_ROOT}/include"/>
-									<listOptionValue builtIn="false" value="c:\ti\OMAPL138_StarterWare_1_10_04_01\binary\c674x\cgt_ccs\omapl138\lcdkOMAPL138\platform\Debug\"/>
+									<listOptionValue builtIn="false" value="${OMAPL138_STARTER_WARE}\binary\c674x\cgt_ccs\omapl138\lcdkOMAPL138\platform\Debug\"/>
 								</option>
 								<option id="com.ti.ccstudio.buildDefinitions.C6000_8.2.linkerID.DIAG_WRAP.2012119773" name="Wrap diagnostic messages (--diag_wrap)" superClass="com.ti.ccstudio.buildDefinitions.C6000_8.2.linkerID.DIAG_WRAP" value="com.ti.ccstudio.buildDefinitions.C6000_8.2.linkerID.DIAG_WRAP.off" valueType="enumerated"/>
 								<option id="com.ti.ccstudio.buildDefinitions.C6000_8.2.linkerID.DISPLAY_ERROR_NUMBER.473271032" name="Emit diagnostic identifier numbers (--display_error_number)" superClass="com.ti.ccstudio.buildDefinitions.C6000_8.2.linkerID.DISPLAY_ERROR_NUMBER" value="true" valueType="boolean"/>
@@ -93,17 +93,17 @@
 							<tool id="com.ti.ccstudio.buildDefinitions.C6000_8.2.hex.1859072784" name="C6000 Hex Utility" superClass="com.ti.ccstudio.buildDefinitions.C6000_8.2.hex"/>
 							<tool id="com.ti.rtsc.buildDefinitions.XDC_3.16.tool.425565178" name="XDCtools" superClass="com.ti.rtsc.buildDefinitions.XDC_3.16.tool">
 								<option id="com.ti.rtsc.buildDefinitions.XDC_3.16.tool.XDC_PATH.334706942" name="Package repositories (--xdcpath)" superClass="com.ti.rtsc.buildDefinitions.XDC_3.16.tool.XDC_PATH" valueType="stringList">
+									<listOptionValue builtIn="false" value="${PROJECT_LOC}\platforms"/>
 									<listOptionValue builtIn="false" value="${BIOS_CG_ROOT}/packages"/>
-									<listOptionValue builtIn="false" value="D:\Projects\Vocoder_IMBE\platforms"/>
-									<listOptionValue builtIn="false" value="D:\Projects\Vocoder_IMBE\platforms\myBoard"/>
 									<listOptionValue builtIn="false" value="${TARGET_CONTENT_BASE}"/>
 								</option>
 								<option id="com.ti.rtsc.buildDefinitions.XDC_3.16.tool.TARGET.546895730" name="Target (-t)" superClass="com.ti.rtsc.buildDefinitions.XDC_3.16.tool.TARGET" value="ti.targets.elf.C674" valueType="string"/>
-								<option id="com.ti.rtsc.buildDefinitions.XDC_3.16.tool.PLATFORM.198040767" name="Platform (-p)" superClass="com.ti.rtsc.buildDefinitions.XDC_3.16.tool.PLATFORM" value="OMAP_L138_DSP" valueType="string"/>
-								<option id="com.ti.rtsc.buildDefinitions.XDC_3.16.tool.PLATFORM_RAW.745985471" name="Platform (-p)" superClass="com.ti.rtsc.buildDefinitions.XDC_3.16.tool.PLATFORM_RAW" value="OMAP_L138_DSP" valueType="string"/>
+								<option id="com.ti.rtsc.buildDefinitions.XDC_3.16.tool.PLATFORM.198040767" name="Platform (-p)" superClass="com.ti.rtsc.buildDefinitions.XDC_3.16.tool.PLATFORM" value="myBoard" valueType="string"/>
+								<option id="com.ti.rtsc.buildDefinitions.XDC_3.16.tool.PLATFORM_RAW.745985471" name="Platform (-p)" superClass="com.ti.rtsc.buildDefinitions.XDC_3.16.tool.PLATFORM_RAW" value="myBoard" valueType="string"/>
 								<option id="com.ti.rtsc.buildDefinitions.XDC_3.16.tool.BUILD_PROFILE.1479438391" name="Build-profile (-r)" superClass="com.ti.rtsc.buildDefinitions.XDC_3.16.tool.BUILD_PROFILE" value="release" valueType="string"/>
 								<option id="com.ti.rtsc.buildDefinitions.XDC_3.16.tool.CODEGEN_TOOL_DIR.881521115" name="Compiler tools directory (-c)" superClass="com.ti.rtsc.buildDefinitions.XDC_3.16.tool.CODEGEN_TOOL_DIR" value="${CG_TOOL_ROOT}" valueType="string"/>
 								<option id="com.ti.rtsc.buildDefinitions.XDC_3.16.tool.COMPILE_OPTIONS.1158824259" name="Additional compiler options (--compileOptions)" superClass="com.ti.rtsc.buildDefinitions.XDC_3.16.tool.COMPILE_OPTIONS" value="&quot;-g --optimize_with_debug&quot;" valueType="string"/>
+								<option id="com.ti.rtsc.buildDefinitions.XDC_3.16.tool.BUILD_CONFIGURATION_FILE.480136852" name="Build configuration file (-b)" superClass="com.ti.rtsc.buildDefinitions.XDC_3.16.tool.BUILD_CONFIGURATION_FILE" useByScannerDiscovery="false" value="${PROJECT_ROOT}/platforms/myBoard/config.bld" valueType="string"/>
 							</tool>
 						</toolChain>
 					</folderInfo>
@@ -127,7 +127,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="sources/imbe_vocoder/arithmetic|sources/libs|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="sources/imbe_vocoder/arithmetic|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -222,11 +222,12 @@
 									<listOptionValue builtIn="false" value="${TARGET_CONTENT_BASE}"/>
 								</option>
 								<option id="com.ti.rtsc.buildDefinitions.XDC_3.16.tool.COMPILE_OPTIONS.1558296900" name="Additional compiler options (--compileOptions)" superClass="com.ti.rtsc.buildDefinitions.XDC_3.16.tool.COMPILE_OPTIONS" useByScannerDiscovery="false" value="&quot;-g --optimize_with_debug&quot;" valueType="string"/>
+								<option id="com.ti.rtsc.buildDefinitions.XDC_3.16.tool.BUILD_CONFIGURATION_FILE.282510304" superClass="com.ti.rtsc.buildDefinitions.XDC_3.16.tool.BUILD_CONFIGURATION_FILE" useByScannerDiscovery="false" value="${PROJECT_ROOT}/platforms/myBoard/config.bld" valueType="string"/>
 							</tool>
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="app.cfg|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

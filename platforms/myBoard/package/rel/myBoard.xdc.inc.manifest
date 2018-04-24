@@ -1,0 +1,17 @@
+myBoard/Platform.xdc
+myBoard/Platform.xs
+myBoard/config.bld
+myBoard/package/.vers_b200
+myBoard/package/.vers_g200
+myBoard/package/.vers_r200
+myBoard/package/.xdc-D20
+myBoard/package/build.cfg
+myBoard/package/myBoard.ccs
+myBoard/package/myBoard.class
+myBoard/package/myBoard.java
+myBoard/package/myBoard.sch
+myBoard/package/package.bld.xml
+myBoard/package/package.defs.h
+myBoard/package/package_myBoard.c
+myBoard/package.bld
+myBoard/package.xdc
