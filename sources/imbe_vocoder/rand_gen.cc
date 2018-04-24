@@ -22,7 +22,7 @@
 
 
 #include "typedef.h"
-#include "basic_op.h"
+#include <arithmetic.h>
 
 static UWord32 seed = 1;
 

@@ -1,5 +1,5 @@
-#ifndef IMBE_VOCODER_BASIC_OP_H_
-#define IMBE_VOCODER_BASIC_OP_H_
+#ifndef ARITHMETIC_H_
+#define ARITHMETIC_H_
 /*
  * Project 25 IMBE Encoder/Decoder Fixed-Point implementation
  * Developed by Pavel Yazev E-mail: pyazev@gmail.com
@@ -36,7 +36,6 @@ extern Flag Carry;
 #define MAX_16 (Word16)0x7fff
 #define MIN_16 (Word16)0x8000
 
-#define C6748_OPTIMAZED
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -45,94 +44,34 @@ extern Flag Carry;
 */
 
 /* Short add, 1 */
-#ifndef C6748_OPTIMAZED
 Word16 add (const Word16 var1, const Word16 var2);
-#else
-inline Word16 add (const Word16 var1, const Word16 var2) {
-	return _sadd2(var1, var2);
-}
-#endif
 
 /* Short sub, 1 */
-#ifndef C6748_OPTIMAZED
 Word16 sub (const Word16 var1, const Word16 var2);
-#else
-inline Word16 sub (const Word16 var1, const Word16 var2) {
-	return _ssub2(var1, var2);
-}
-#endif
 
 /* Short abs, 1 */
-#ifndef C6748_OPTIMAZED
 Word16 abs_s (const Word16 var1);
-#else
-inline Word16 abs_s (const Word16 var1) {
-	return _abs2(var1);
-}
-#endif
 
 /* Short shift left, 1 */
-#ifndef C6748_OPTIMAZED
 Word16 shl (const Word16 var1, const Word16 var2);
-#else
-inline Word16 shl (const Word16 var1, const Word16 var2) {
-	return _sshvl(var1, var2);
-}
-#endif
 
 /* Short shift right, 1 */
-#ifndef C6748_OPTIMAZED
 Word16 shr (const Word16 var1, const Word16 var2);
-#else
-	inline Word16 shr (const Word16 var1, const Word16 var2) {
-		return _sshvr(var1, var2);
-	}
-#endif
 
 /* Short mult, 1 */
-#ifndef C6748_OPTIMAZED
 Word16 mult (const Word16 var1, const Word16 var2);
-#else
-inline Word16 mult (const Word16 var1, const Word16 var2) {
-	return _mpylir(var1, var2);
-}
-#endif
 
 /* Long mult, 1 */
-#ifndef C6748_OPTIMAZED
 Word32 L_mult (const Word16 var1, const Word16 var2);
-#else
-inline Word32 L_mult (const Word16 var1, const Word16 var2) {
-	return _smpy(var1, var2);
-}
-#endif
 
 /* Short negate, 1 */
-#ifndef C6748_OPTIMAZED
 Word16 negate (const Word16 var1);
-#else
-inline Word16 negate (const Word16 var1) {
-	return (var1 == MIN_16 ) ? MAX_16 : -var1;
-}
-#endif
 
 /* Extract high, 1 */
-#ifndef C6748_OPTIMAZED
 Word16 extract_h (const Word32 L_var1);
-#else
-inline Word16 extract_h (const Word32 L_var1) {
-	return (Word16) (L_var1 >> 16);
-}
-#endif
 
 /* Extract low, 1 */
-#ifndef C6748_OPTIMAZED
 Word16 extract_l (const Word32 L_var1);
-#else
-inline Word16 extract_l (const Word32 L_var1) {
-	return (Word16) L_var1;
-}
-#endif
 
 /* Round, 1 */
 Word16 round (const Word32 L_var1);
@@ -150,22 +89,10 @@ Word32 L_macNs (const Word32 L_var3, const Word16 var1, const Word16 var2);
 Word32 L_msuNs (const Word32 L_var3, const Word16 var1, const Word16 var2);
 
 /* Long add, 2 */
-#ifndef C6748_OPTIMAZED
 Word32 L_add (const Word32 L_var1, const Word32 L_var2);
-#else
-inline Word32 L_add (const Word32 L_var1, const Word32 L_var2) {
-	return _sadd(L_var1, L_var2);
-}
-#endif
 
 /* Long sub, 2 */
-#ifndef C6748_OPTIMAZED
 Word32 L_sub (const Word32 L_var1, const Word32 L_var2);
-#else
-inline Word32 L_sub (const Word32 L_var1, const Word32 L_var2) {
-	return _ssub(L_var1, L_var2);
-}
-#endif
 
 /* Long add with c, 2 */
 Word32 L_add_c (const Word32 L_var1, const Word32 L_var2);
@@ -174,22 +101,10 @@ Word32 L_add_c (const Word32 L_var1, const Word32 L_var2);
 Word32 L_sub_c (const Word32 L_var1, const Word32 L_var2);
 
 /* Long negate, 2 */
-#ifndef C6748_OPTIMAZED
 Word32 L_negate (const Word32 L_var1);
-#else
-inline Word32 L_negate (const Word32 L_var1) {
-	return (L_var1 == MIN_32 ) ? MAX_32 : -L_var1;
-}
-#endif
 
 /* Mult with round, 2 */
-#ifndef C6748_OPTIMAZED
 Word16 mult_r (const Word16 var1, const Word16 var2);
-#else
-inline Word16 mult_r (const Word16 var1, const Word16 var2) {
-	return (var1 == var2 == -32768) ? 32767 : _mpylir(var1, var2);
-}
-#endif
 
 /* Long shift left, 2 */
 Word32 L_shl (const Word32 L_var1, const Word16 var2);
@@ -207,34 +122,16 @@ Word16 mac_r (const Word32 L_var3, const Word16 var1, const Word16 var2);
 Word16 msu_r (const Word32 L_var3, const Word16 var1, const Word16 var2);
 
 /* 16 bit var1 -> MSB, 2 */
-#ifndef C6748_OPTIMAZED
 Word32 L_deposit_h (const Word16 var1);
-#else
-inline Word32 L_deposit_h (const Word16 var1) {
-	return (Word32) var1 << 16;
-}
-#endif
 
 /* 16 bit var1 -> LSB, 2 */
-#ifndef C6748_OPTIMAZED
 Word32 L_deposit_l (const Word16 var1);
-#else
-inline Word32 L_deposit_l (const Word16 var1) {
-	return (Word32) var1;
-}
-#endif
 
 /* Long shift right with round, 3 */
 Word32 L_shr_r (const Word32 L_var1, const Word16 var2);
 
 /* Long abs, 3 */
-#ifndef C6748_OPTIMAZED
 Word32 L_abs (const Word32 L_var1);
-#else
-inline Word32 L_abs (const Word32 L_var1) {
-	return _abs(L_var1);
-}
-#endif
 
 /* Long saturation, 4 */
 Word32 L_sat (const Word32 L_var1);
@@ -246,12 +143,6 @@ Word16 norm_s (const Word16 var1);
 Word16 div_s (const Word16 var1, const Word16 var2);
 
 /* Long norm, 30 */
-#ifndef C6748_OPTIMAZED
 Word16 norm_l (const Word32 L_var1);
-#else
-inline Word16 norm_l (const Word32 L_var1) {
-	return (L_var1 == 0) ? 0 : _norm(L_var1);
-}
-#endif
 
-#endif /* IMBE_VOCODER_BASIC_OP_H_ */
+#endif /* ARITHMETIC_H_ */

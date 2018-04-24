@@ -27,7 +27,7 @@
 #include "sa_enh.h"
 #include "v_synt.h"
 #include "uv_synt.h"
-#include "basic_op.h"
+#include <arithmetic.h>
 #include "aux_sub.h"
 #include "encode.h"
 #include "dsp_sub.h"

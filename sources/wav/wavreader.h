@@ -1,8 +1,9 @@
 #ifndef WAVREADER_H_
 #define WAVREADER_H_
 
-#include "stdio.h"
-#include "stdint.h"
+#include <stdio.h>
+#include <stdint.h>
+#include <stddef.h>
 
 typedef struct  WAV_HEADER
 {

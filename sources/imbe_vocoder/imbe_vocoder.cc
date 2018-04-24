@@ -9,7 +9,6 @@
 
 #include "imbe_vocoder.h"
 #include "crossplatfprmfft.h"
-#include "c6748fft.h"
 
 imbe_vocoder::imbe_vocoder (void) :
 	prev_pitch(0),
@@ -25,7 +24,6 @@ imbe_vocoder::imbe_vocoder (void) :
 	dc_rmv_mem(0)
 {
 	fft = new CrossplatfprmFft();
-//	fft = new C6748Fft();
 
 	memset(pitch_est_buf, 0, sizeof(pitch_est_buf));
 	memset(pitch_ref_buf, 0, sizeof(pitch_ref_buf));

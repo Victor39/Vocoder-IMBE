@@ -20,7 +20,7 @@
  */
 
 #include "typedef.h"
-#include "basic_op.h"
+#include <arithmetic.h>
 #include "math_sub.h"
 
 //-----------------------------------------------------------------------------

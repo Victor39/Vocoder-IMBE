@@ -20,7 +20,7 @@
  */
 
 #include "typedef.h"
-#include "basic_op.h"
+#include <arithmetic.h>
 #include "imbe.h"
 #include "qnt_sub.h"
 #include "aux_sub.h"

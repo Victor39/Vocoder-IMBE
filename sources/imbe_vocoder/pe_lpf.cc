@@ -23,7 +23,7 @@
 #include "globals.h"
 #include "imbe.h"
 #include "aux_sub.h"
-#include "basic_op.h"
+#include <arithmetic.h>
 #include "math_sub.h"
 #include "pe_lpf.h"
 

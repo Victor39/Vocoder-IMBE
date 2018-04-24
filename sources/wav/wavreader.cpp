@@ -3,8 +3,8 @@
 WavReader* WavReader::make (const char* _fname) {
 
 	FILE * wavFile = fopen(_fname, "rb");
-	if (wavFile == NULL) {
-		return NULL;
+	if (wavFile == 0) {
+		return 0;
 	}
 	else {
 		return new WavReader(wavFile);

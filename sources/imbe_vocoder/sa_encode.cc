@@ -21,7 +21,7 @@
 
 #include "typedef.h"
 #include "globals.h"
-#include "basic_op.h"
+#include <arithmetic.h>
 #include "imbe.h"
 #include "tbls.h"
 #include "qnt_sub.h"

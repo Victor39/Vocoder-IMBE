@@ -19,7 +19,7 @@
  * 02110-1301, USA.
  */
 #include "typedef.h"
-#include "basic_op.h"
+#include <arithmetic.h>
 #include "imbe.h"
 #include "aux_sub.h"
 #include "tbls.h"

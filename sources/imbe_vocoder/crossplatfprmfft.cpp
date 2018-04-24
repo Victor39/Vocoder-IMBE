@@ -1,7 +1,7 @@
 #include <string.h>
 #include "crossplatfprmfft.h"
 #include "math_sub.h"
-#include "basic_op.h"
+#include <arithmetic.h>
 
 
 CrossplatfprmFft::CrossplatfprmFft () {

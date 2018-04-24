@@ -21,7 +21,7 @@
 
 
 #include "typedef.h"
-#include "basic_op.h"
+#include <arithmetic.h>
 #include "qnt_sub.h"
 
 

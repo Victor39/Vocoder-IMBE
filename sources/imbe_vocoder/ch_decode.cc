@@ -22,7 +22,7 @@
 #include "typedef.h"
 #include "globals.h"
 #include "imbe.h"
-#include "basic_op.h"
+#include <arithmetic.h>
 #include "ch_decode.h"
 #include "aux_sub.h"
 

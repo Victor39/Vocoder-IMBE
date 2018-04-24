@@ -23,7 +23,7 @@
 #include "typedef.h"
 #include "globals.h"
 #include "imbe.h"
-#include "basic_op.h"
+#include <arithmetic.h>
 #include "dsp_sub.h"
 #include "aux_sub.h"
 #include "tbls.h"

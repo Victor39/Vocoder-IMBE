@@ -34,12 +34,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "typedef.h"
-#include "basic_op.h"
-
-#ifdef C6748_OPTIMAZED
-#include "c6x.h"
-#endif
+#include "../typedef.h"
+#include "arithmetic.h"
 
 #if (WMOPS)
 #include "count.h"
@@ -142,7 +138,6 @@ static Word16 saturate (const Word32 L_var1) {
  |             range : 0xffff 8000 <= var_out <= 0x0000 7fff.                |
  |___________________________________________________________________________|
  */
-#ifndef C6748_OPTIMAZED
 Word16 add (Word16 var1, Word16 var2) {
 
 	Word16 var_out;
@@ -155,7 +150,6 @@ Word16 add (Word16 var1, Word16 var2) {
 #endif
 	return (var_out);
 }
-#endif
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -190,7 +184,6 @@ Word16 add (Word16 var1, Word16 var2) {
  |             range : 0xffff 8000 <= var_out <= 0x0000 7fff.                |
  |___________________________________________________________________________|
  */
-#ifndef C6748_OPTIMAZED
 Word16 sub (Word16 var1, Word16 var2) {
 
 	Word16 var_out;
@@ -204,7 +197,6 @@ Word16 sub (Word16 var1, Word16 var2) {
 
 	return (var_out);
 }
-#endif
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -233,7 +225,6 @@ Word16 sub (Word16 var1, Word16 var2) {
  |             range : 0x0000 0000 <= var_out <= 0x0000 7fff.                |
  |___________________________________________________________________________|
  */
-#ifndef C6748_OPTIMAZED
 Word16 abs_s (Word16 var1) {
 
 	Word16 var_out;
@@ -255,7 +246,6 @@ Word16 abs_s (Word16 var1) {
 
 	return (var_out);
 }
-#endif
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -291,7 +281,6 @@ Word16 abs_s (Word16 var1) {
  |             range : 0xffff 8000 <= var_out <= 0x0000 7fff.                |
  |___________________________________________________________________________|
  */
-#ifndef C6748_OPTIMAZED
 Word16 shl (const Word16 var1, const Word16 var2) {
 
 	Word16 var2_t = var2;
@@ -325,7 +314,6 @@ Word16 shl (const Word16 var1, const Word16 var2) {
 #endif
 	return (var_out);
 }
-#endif
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -361,7 +349,6 @@ Word16 shl (const Word16 var1, const Word16 var2) {
  |             range : 0xffff 8000 <= var_out <= 0x0000 7fff.                |
  |___________________________________________________________________________|
  */
-#ifndef C6748_OPTIMAZED
 Word16 shr (const Word16 var1, const Word16 var2) {
 	Word16 var_out;
 
@@ -393,7 +380,6 @@ Word16 shr (const Word16 var1, const Word16 var2) {
 #endif
 	return (var_out);
 }
-#endif
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -429,7 +415,6 @@ Word16 shr (const Word16 var1, const Word16 var2) {
  |             range : 0xffff 8000 <= var_out <= 0x0000 7fff.                |
  |___________________________________________________________________________|
  */
-#ifndef C6748_OPTIMAZED
 Word16 mult (const Word16 var1, const Word16 var2) {
 	Word16 var_out;
 	Word32 L_product;
@@ -449,7 +434,6 @@ Word16 mult (const Word16 var1, const Word16 var2) {
 
 	return (var_out);
 }
-#endif
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -485,7 +469,6 @@ Word16 mult (const Word16 var1, const Word16 var2) {
  |             range : 0x8000 0000 <= L_var_out <= 0x7fff ffff.              |
  |___________________________________________________________________________|
  */
-#ifndef C6748_OPTIMAZED
 Word32 L_mult (Word16 var1, Word16 var2) {
 
 	Word32 L_var_out;
@@ -506,7 +489,6 @@ Word32 L_mult (Word16 var1, Word16 var2) {
 
 	return (L_var_out);
 }
-#endif
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -536,7 +518,6 @@ Word32 L_mult (Word16 var1, Word16 var2) {
  |             range : 0xffff 8000 <= var_out <= 0x0000 7fff.                |
  |___________________________________________________________________________|
  */
-#ifndef C6748_OPTIMAZED
 Word16 negate (const Word16 var1) {
 	Word16 var_out;
 
@@ -546,7 +527,6 @@ Word16 negate (const Word16 var1) {
 #endif
 	return (var_out);
 }
-#endif
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -575,7 +555,6 @@ Word16 negate (const Word16 var1) {
  |             range : 0xffff 8000 <= var_out <= 0x0000 7fff.                |
  |___________________________________________________________________________|
  */
-#ifndef C6748_OPTIMAZED
 Word16 extract_h (const Word32 L_var1) {
 	Word16 var_out;
 
@@ -585,7 +564,6 @@ Word16 extract_h (const Word32 L_var1) {
 #endif
 	return (var_out);
 }
-#endif
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -614,7 +592,6 @@ Word16 extract_h (const Word32 L_var1) {
  |             range : 0xffff 8000 <= var_out <= 0x0000 7fff.                |
  |___________________________________________________________________________|
  */
-#ifndef C6748_OPTIMAZED
 Word16 extract_l (const Word32 L_var1) {
 	Word16 var_out;
 
@@ -624,7 +601,6 @@ Word16 extract_l (const Word32 L_var1) {
 #endif
 	return (var_out);
 }
-#endif
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -926,8 +902,6 @@ Word32 L_msuNs (const Word32 L_var3, const Word16 var1, const Word16 var2) {
  |             range : 0x8000 0000 <= L_var_out <= 0x7fff ffff.              |
  |___________________________________________________________________________|
  */
-
-#ifndef C6748_OPTIMAZED
 Word32 L_add (const Word32 L_var1, const Word32 L_var2) {
 	Word32 L_var_out;
 
@@ -944,7 +918,6 @@ Word32 L_add (const Word32 L_var1, const Word32 L_var2) {
 #endif
 	return (L_var_out);
 }
-#endif
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -977,7 +950,6 @@ Word32 L_add (const Word32 L_var1, const Word32 L_var2) {
  |             range : 0x8000 0000 <= L_var_out <= 0x7fff ffff.              |
  |___________________________________________________________________________|
  */
-#ifndef C6748_OPTIMAZED
 Word32 L_sub (const Word32 L_var1, const Word32 L_var2) {
 	Word32 L_var_out;
 
@@ -995,7 +967,6 @@ Word32 L_sub (const Word32 L_var1, const Word32 L_var2) {
 
 	return (L_var_out);
 }
-#endif
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -1211,7 +1182,6 @@ Word32 L_sub_c (const Word32 L_var1, const Word32 L_var2) {
  |             range : 0x8000 0000 <= L_var_out <= 0x7fff ffff.              |
  |___________________________________________________________________________|
  */
-#ifndef C6748_OPTIMAZED
 Word32 L_negate (const Word32 L_var1) {
 	Word32 L_var_out;
 
@@ -1221,7 +1191,6 @@ Word32 L_negate (const Word32 L_var1) {
 #endif
 	return (L_var_out);
 }
-#endif
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -1256,8 +1225,6 @@ Word32 L_negate (const Word32 L_var1) {
  |             range : 0xffff 8000 <= var_out <= 0x0000 7fff.                |
  |___________________________________________________________________________|
  */
-
-#ifndef C6748_OPTIMAZED
 Word16 mult_r (const Word16 var1, const Word16 var2) {
 
 	Word16 var_out;
@@ -1278,7 +1245,6 @@ Word16 mult_r (const Word16 var1, const Word16 var2) {
 #endif
 	return (var_out);
 }
-#endif
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -1313,7 +1279,6 @@ Word16 mult_r (const Word16 var1, const Word16 var2) {
  |             range : 0x8000 0000 <= L_var_out <= 0x7fff ffff.              |
  |___________________________________________________________________________|
  */
-
 Word32 L_shl (const Word32 L_var1, const Word16 var2) {
 
 	Word32 L_var1_t = L_var1;
@@ -1385,7 +1350,6 @@ Word32 L_shl (const Word32 L_var1, const Word16 var2) {
  |             range : 0x8000 0000 <= L_var_out <= 0x7fff ffff.              |
  |___________________________________________________________________________|
  */
-
 Word32 L_shr (const Word32 L_var1, const Word16 var2) {
 
 	Word16 var2_t = var2;
@@ -1459,7 +1423,6 @@ Word32 L_shr (const Word32 L_var1, const Word16 var2) {
  |             range : 0xffff 8000 <= var_out <= 0x0000 7fff.                |
  |___________________________________________________________________________|
  */
-
 Word16 shr_r (const Word16 var1, const Word16 var2) {
 	Word16 var_out;
 
@@ -1522,7 +1485,6 @@ Word16 shr_r (const Word16 var1, const Word16 var2) {
  |             range : 0x0000 8000 <= L_var_out <= 0x0000 7fff.              |
  |___________________________________________________________________________|
  */
-
 Word16 mac_r (const Word32 L_var3, const Word16 var1, const Word16 var2) {
 	Word16 var_out;
 
@@ -1580,7 +1542,6 @@ Word16 mac_r (const Word32 L_var3, const Word16 var1, const Word16 var2) {
  |             range : 0x0000 8000 <= L_var_out <= 0x0000 7fff.              |
  |___________________________________________________________________________|
  */
-
 Word16 msu_r (const Word32 L_var3, const Word16 var1, const Word16 var2) {
 	Word16 var_out;
 
@@ -1628,7 +1589,6 @@ Word16 msu_r (const Word32 L_var3, const Word16 var1, const Word16 var2) {
  |             range : 0x8000 0000 <= var_out <= 0x7fff 0000.                |
  |___________________________________________________________________________|
  */
-#ifndef C6748_OPTIMAZED
 Word32 L_deposit_h (const Word16 var1) {
 	Word32 L_var_out;
 
@@ -1638,7 +1598,6 @@ Word32 L_deposit_h (const Word16 var1) {
 #endif
 	return (L_var_out);
 }
-#endif
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -1668,7 +1627,6 @@ Word32 L_deposit_h (const Word16 var1) {
  |             range : 0xFFFF 8000 <= var_out <= 0x0000 7fff.                |
  |___________________________________________________________________________|
  */
-#ifndef C6748_OPTIMAZED
 Word32 L_deposit_l (const Word16 var1) {
 	Word32 L_var_out;
 
@@ -1678,7 +1636,6 @@ Word32 L_deposit_l (const Word16 var1) {
 #endif
 	return (L_var_out);
 }
-#endif
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -1721,7 +1678,6 @@ Word32 L_deposit_l (const Word16 var1) {
  |             range : 0x8000 0000 <= var_out <= 0x7fff ffff.                |
  |___________________________________________________________________________|
  */
-
 Word32 L_shr_r (const Word32 L_var1, const Word16 var2) {
 	Word32 L_var_out;
 
@@ -1773,7 +1729,6 @@ Word32 L_shr_r (const Word32 L_var1, const Word16 var2) {
  |             range : 0x0000 0000 <= var_out <= 0x7fff ffff.                |
  |___________________________________________________________________________|
  */
-#ifndef C6748_OPTIMAZED
 Word32 L_abs (const Word32 L_var1) {
 	Word32 L_var_out;
 
@@ -1794,7 +1749,6 @@ Word32 L_abs (const Word32 L_var1) {
 #endif
 	return (L_var_out);
 }
-#endif
 
 /*___________________________________________________________________________
  |                                                                           |
@@ -1826,7 +1780,6 @@ Word32 L_abs (const Word32 L_var1) {
  |             range : 0x8000 0000 <= var_out <= 0x7fff ffff.                |
  |___________________________________________________________________________|
  */
-
 Word32 L_sat (const Word32 L_var1) {
 	Word32 L_var_out;
 
@@ -1882,7 +1835,6 @@ Word32 L_sat (const Word32 L_var1) {
  |             range : 0x0000 0000 <= var_out <= 0x0000 000f.                |
  |___________________________________________________________________________|
  */
-
 Word16 norm_s (const Word16 var1) {
 
 	Word16 var1_t = var1;
@@ -1947,7 +1899,6 @@ Word16 norm_s (const Word16 var1) {
  |             It's a Q15 value (point between b15 and b14).                 |
  |___________________________________________________________________________|
  */
-
 Word16 div_s (const Word16 var1, const Word16 var2) {
 	Word16 var_out = 0;
 	Word16 iteration;
@@ -2035,8 +1986,6 @@ Word16 div_s (const Word16 var1, const Word16 var2) {
  |             range : 0x0000 0000 <= var_out <= 0x0000 001f.                |
  |___________________________________________________________________________|
  */
-
-#ifndef C6748_OPTIMAZED
 Word16 norm_l (const Word32 L_var1) {
 
 	Word32 L_var1_t = L_var1;
@@ -2065,4 +2014,3 @@ Word16 norm_l (const Word32 L_var1) {
 
 	return (var_out);
 }
-#endif
